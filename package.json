@@ -2,7 +2,7 @@
   "private": true,
   "name": "@asgardeo/mcp-express-workspace",
   "version": "0.0.0",
-  "description": "Express middleware for enforcing Model Context Protocol (MCP) authorization using Asgardeo.",
+  "description": "Workspace to hold the Express middleware for enforcing Model Context Protocol (MCP) authorization using Asgardeo.",
   "author": "WSO2",
   "license": "Apache-2.0",
   "homepage": "https://github.com/asgardeo/mcp-express#readme",
@@ -15,16 +15,14 @@
   },
   "keywords": [
     "asgardeo",
-    "agents",
-    "mcp",
     "mcp-express",
-    "mcp-auth",
-    "authorization"
+    "workspace"
   ],
   "scripts": {},
   "devDependencies": {
     "@wso2/eslint-plugin": "https://gitpkg.now.sh/brionmario/wso2-ui-configs/packages/eslint-plugin?4ee6f6be232d7631999d709a86b91612f1d34ce7",
     "@wso2/prettier-config": "https://gitpkg.now.sh/brionmario/wso2-ui-configs/packages/prettier-config?4ee6f6be232d7631999d709a86b91612f1d34ce7",
+    "eslint": "8.57.0",
     "nx": "20.8.1",
     "prettier": "^2.6.2",
     "typescript": "~5.7.2"
@@ -32,7 +30,5 @@
   "publishConfig": {
     "access": "restricted"
   },
-  "dependencies": {
-    "eslint": "8.57.0"
-  }
+  "dependencies": {}
 }
