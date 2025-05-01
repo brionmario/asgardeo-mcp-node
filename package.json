@@ -1,0 +1,13 @@
+{
+  "private": true,
+  "name": "@asgardeo/mcp-express-workspace",
+  "version": "0.0.0",
+  "license": "MIT",
+  "scripts": {},
+  "dependencies": {},
+  "devDependencies": {
+    "nx": "20.8.1",
+    "prettier": "^2.6.2",
+    "typescript": "~5.7.2"
+  }
+}
