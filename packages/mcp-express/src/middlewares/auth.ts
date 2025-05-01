@@ -16,4 +16,4 @@
  * under the License.
  */
 
-module.exports = require('@wso2/prettier-config');
+export function mcpAuthMiddleware(): void {}
