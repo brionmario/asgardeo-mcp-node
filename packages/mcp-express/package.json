@@ -1,0 +1,40 @@
+{
+  "name": "@asgardeo/mcp-express",
+  "version": "0.0.0",
+  "description": "Express middleware for enforcing Model Context Protocol (MCP) authorization using Asgardeo.",
+  "keywords": [
+    "asgardeo",
+    "agents",
+    "mcp",
+    "mcp-express",
+    "mcp-auth",
+    "authorization"
+  ],
+  "homepage": "https://github.com/asgardeo/mcp-express/tree/main/packages/mcp-express#readme",
+  "bugs": {
+    "url": "https://github.com/asgardeo/mcp-express/issues"
+  },
+  "author": "WSO2",
+  "license": "Apache-2.0",
+  "type": "module",
+  "main": "dist/esm/index.js",
+  "module": "dist/esm/index.js",
+  "commonjs": "dist/cjs/index.js",
+  "types": "dist/index.d.ts",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/asgardeo/mcp-express",
+    "directory": "packages/mcp-express"
+  },
+  "scripts": {},
+  "devDependencies": {
+    "@wso2/eslint-plugin": "https://gitpkg.now.sh/brionmario/wso2-ui-configs/packages/eslint-plugin?4ee6f6be232d7631999d709a86b91612f1d34ce7",
+    "@wso2/prettier-config": "https://gitpkg.now.sh/brionmario/wso2-ui-configs/packages/prettier-config?4ee6f6be232d7631999d709a86b91612f1d34ce7",
+    "eslint": "8.57.0",
+    "prettier": "^2.6.2",
+    "typescript": "~5.7.2"
+  },
+  "publishConfig": {
+    "access": "public"
+  }
+}
