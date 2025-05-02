@@ -16,4 +16,4 @@
  * under the License.
  */
 
-export function mcpAuthMiddleware(): void {}
+export function asgardeoMcpAuth(): void {}
