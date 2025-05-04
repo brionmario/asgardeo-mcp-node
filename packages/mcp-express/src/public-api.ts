@@ -16,4 +16,5 @@
  * under the License.
  */
 
-export * from './middlewares/auth';
+export * from './middlewares/auth.js';
+export {asgardeoMCPAuthRouter} from './router.js';
