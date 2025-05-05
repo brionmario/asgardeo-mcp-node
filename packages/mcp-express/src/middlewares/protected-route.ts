@@ -34,8 +34,37 @@ export default function protectedRoute(req: Request, res: Response, next: NextFu
     });
   }
 
-  // Continue processing if authorization header is present
-  next();
+    const parts = authHeader.split(' ');
+    if (parts.length !== 2 || parts[0] !== 'Bearer') {
+      return res.status(401).json({
+        error: 'invalid_token',
+        error_description: 'Authorization header must be in format: Bearer [token]',
+      });
+    }
 
-  return undefined;
+    const token = parts[1];
+
+    const issuerBase = provider?.baseUrl;
+
+    const TOKEN_VALIDATION_CONFIG = {
+      jwksUri: `${issuerBase}/oauth2/jwks`,
+      options: {
+        issuer: `${issuerBase}/oauth2/token`,
+        audience: provider?.clientId,
+        clockTolerance: 60,
+      },
+    };
+
+    try {
+      await validateAccessToken(token, TOKEN_VALIDATION_CONFIG.jwksUri, TOKEN_VALIDATION_CONFIG.options);
+      next();
+      return undefined;
+    } catch (error: any) {
+      console.error('Token validation failed:', error.message);
+      return res.status(401).json({
+        error: 'invalid_token',
+        error_description: error.message || 'Invalid or expired token',
+      });
+    }
+  };
 }
