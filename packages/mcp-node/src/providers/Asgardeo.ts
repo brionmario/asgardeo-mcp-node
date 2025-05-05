@@ -20,6 +20,6 @@ import {McpAuthProvider} from '../models/mcp-auth';
 
 export default function Asgardeo(): McpAuthProvider {
   return {
-    baseUrl: 'https://api.asgardeo.io',
+    baseUrl: 'https://api.asgardeo.io/t/thineth6424',
   };
 }
