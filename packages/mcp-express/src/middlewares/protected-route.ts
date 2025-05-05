@@ -16,26 +16,59 @@
  * under the License.
  */
 
-import {AUTHORIZATION_SERVER_METADATA_URL} from '@asgardeo/mcp-node';
+import {AUTHORIZATION_SERVER_METADATA_URL, validateAccessToken, McpAuthProvider} from '@asgardeo/mcp-node';
 import {NextFunction, Request, Response} from 'express';
 
-export default function protectedRoute(req: Request, res: Response, next: NextFunction): Response | undefined {
-  const authHeader: string | undefined = req.headers.authorization;
+export default function protectedRoute(provider?: McpAuthProvider) {
+  return async function (
+    req: Request,
+    res: Response,
+    next: NextFunction,
+  ): Promise<Response<any, Record<string, any>> | undefined> {
+    const authHeader: string | undefined = req.headers.authorization;
 
-  if (!authHeader) {
-    // RFC9728 compliant WWW-Authenticate header with resource server metadata URL
-    res.setHeader(
-      'WWW-Authenticate',
-      `Bearer resource_metadata="${req.protocol}://${req.get('host')}${AUTHORIZATION_SERVER_METADATA_URL}"`,
-    );
-    return res.status(401).json({
-      error: 'unauthorized',
-      error_description: 'Missing authorization token',
-    });
-  }
+    if (!authHeader) {
+      res.setHeader(
+        'WWW-Authenticate',
+        `Bearer resource_metadata="${req.protocol}://${req.get('host')}${AUTHORIZATION_SERVER_METADATA_URL}"`,
+      );
+      return res.status(401).json({
+        error: 'unauthorized',
+        error_description: 'Missing authorization token',
+      });
+    }
 
-  // Continue processing if authorization header is present
-  next();
+    const parts = authHeader.split(' ');
+    if (parts.length !== 2 || parts[0] !== 'Bearer') {
+      return res.status(401).json({
+        error: 'invalid_token',
+        error_description: 'Authorization header must be in format: Bearer [token]',
+      });
+    }
 
-  return undefined;
+    const token = parts[1];
+
+    const issuerBase = provider?.baseUrl || 'https://api.asgardeo.io/t/thineth6424';
+
+    const TOKEN_VALIDATION_CONFIG = {
+      jwksUri: `${issuerBase}/oauth2/jwks`,
+      options: {
+        issuer: `${issuerBase}/oauth2/token`,
+        audience: provider?.clientId,
+        clockTolerance: 60,
+      },
+    };
+
+    try {
+      await validateAccessToken(token, TOKEN_VALIDATION_CONFIG.jwksUri, TOKEN_VALIDATION_CONFIG.options);
+      next();
+      return undefined;
+    } catch (error: any) {
+      console.error('Token validation failed:', error.message);
+      return res.status(401).json({
+        error: 'invalid_token',
+        error_description: error.message || 'Invalid or expired token',
+      });
+    }
+  };
 }
