@@ -15,9 +15,9 @@ app.use(
   McpAuthServer({
     providers: [
       {
-        baseUrl: process.env.BASE_URL as string,
+        baseUrl: process.env.BASE_URL || 'http://localhost:3000',
         issuer: process.env.ISSUER,
-        clientId: process.env.CLIENT_ID,
+        clientId: process.env.CLIENT_ID || '',
         clientSecret: process.env.CLIENT_SECRET,
       },
     ],
@@ -31,7 +31,7 @@ app.use('/api', publicRoutes);
 app.use(
   '/api/protected',
   protectedRoute({
-    baseUrl: process.env.BASE_URL as string,
+    baseUrl: process.env.BASE_URL || 'http://localhost:3000',
     issuer: process.env.ISSUER,
     clientId: process.env.CLIENT_ID || '',
     clientSecret: process.env.CLIENT_SECRET,

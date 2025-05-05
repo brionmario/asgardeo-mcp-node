@@ -25,7 +25,7 @@ export {
   ProtectedResourceMetadataOptions,
 } from './models/authorization-server';
 export {McpAuthOptions, McpAuthProvider} from './models/mcp-auth';
-export {default as createVerifyToken} from './utils/create-verify-token';
+export {default as validateAccessToken} from './utils/validate-access-token';
 export {default as generateAuthorizationServerMetadata} from './utils/generate-authorization-server-metadata';
 export {default as generateProtectedResourceMetadata} from './utils/generate-protected-resource-metadata';
 
