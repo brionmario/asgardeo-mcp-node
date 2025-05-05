@@ -16,8 +16,8 @@
  * under the License.
  */
 
-export {AuthorizationServerMetadata, AuthorizationServerMetadataOptions} from './models/authorization-server';
-
-export {default as createVerifyToken} from './utils/create-verify-token';
-export {default as generateAuthorizationServerMetadata} from './utils/generate-authorization-server-metadata';
-export {AUTHORIZATION_SERVER_METADATA_URL} from './constants/authorization-server';
+/**
+ * The well-known path for OAuth 2.0 Authorization Server Metadata.
+ * @see https://datatracker.ietf.org/doc/html/rfc8414#section-3
+ */
+export const AUTHORIZATION_SERVER_METADATA_URL: string = '/.well-known/oauth-authorization-server';
