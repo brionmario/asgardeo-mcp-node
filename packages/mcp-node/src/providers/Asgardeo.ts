@@ -16,10 +16,10 @@
  * under the License.
  */
 
-export interface McpAuthOptions {
-  providers: McpAuthProvider[];
-}
+import {McpAuthProvider} from '../models/mcp-auth';
 
-export interface McpAuthProvider {
-  baseUrl: string;
+export default function Asgardeo(): McpAuthProvider {
+  return {
+    baseUrl: 'https://api.asgardeo.io',
+  };
 }

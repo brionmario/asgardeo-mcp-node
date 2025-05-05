@@ -46,7 +46,7 @@ import express, {RequestHandler, Request, Response, Router} from 'express';
  * @example
  * ```typescript
  * const options: AuthorizationServerMetadataOptions = {
- *   issuerUrl: 'https://auth.example.com',
+ *   issuer: 'https://auth.example.com',
  *   supportedScopes: ['openid', 'profile', 'email'],
  *   supportedAuthMethods: ['client_secret_basic']
  * };

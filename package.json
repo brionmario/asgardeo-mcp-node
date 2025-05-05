@@ -19,6 +19,7 @@
     "workspace"
   ],
   "scripts": {
+    "build": "nx run-many --target=build --all --parallel",
     "fix:lint": "nx run-many --target=fix:lint --all --parallel",
     "lint": "nx run-many --target=lint --all --parallel"
   },

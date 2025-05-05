@@ -19,38 +19,36 @@
 import {
   AUTHORIZATION_SERVER_METADATA_URL,
   NotImplementedError,
-  AuthorizationServerMetadataOptions,
+  PROTECTED_RESOURCE_URL,
+  McpAuthProvider,
+  McpAuthOptions,
+  Asgardeo,
 } from '@asgardeo/mcp-node';
 import express from 'express';
 import {getAuthorizationServerMetadata} from '../controllers/authorization-server';
+import {getProtectedResourceMetadata} from '../controllers/protected-resource';
 
-interface Provider {
-  clientId: string;
-  clientSecret: string;
-  issuer: string;
-}
-
-export interface McpAuthOptions {
-  providers: Provider[];
-}
-
-export default function AuthRouter(options: McpAuthOptions): express.Router {
+export default function AuthRouter(options?: McpAuthOptions): express.Router {
   const router: express.Router = express.Router();
 
-  const {providers} = options;
+  const providers: McpAuthProvider[] = options?.providers || [Asgardeo()];
 
   if (providers.length > 1) {
     throw new NotImplementedError('Multiple providers support is not implemented yet');
   }
 
   router.use(
+    PROTECTED_RESOURCE_URL,
+    getProtectedResourceMetadata({
+      authorizationServers: providers.map((provider: McpAuthProvider) => provider.baseUrl),
+      resource: 'https://api.example.com',
+    }),
+  );
+
+  router.use(
     AUTHORIZATION_SERVER_METADATA_URL,
     getAuthorizationServerMetadata({
-      authorizationEndpoint: `${providers[0].issuer}/oauth2/authorize`,
-      metadataURL: `${providers[0].issuer}/.well-known/oauth-authorization-server`,
-      supportedAuthMethods: ['client_secret_basic'],
-      supportedScopes: ['openid', 'profile', 'email'],
-      tokenEndpoint: `${providers[0].issuer}/oauth2/token`,
+      baseUrl: `${providers[0].baseUrl}`,
     }),
   );
 

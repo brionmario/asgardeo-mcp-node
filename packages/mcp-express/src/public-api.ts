@@ -16,6 +16,5 @@
  * under the License.
  */
 
-export {default as McpAuth} from './routes/auth';
-export {getAuthorizationServerMetadata} from './controllers/authorization-server';
-export {getProtectedResourceMetadata} from './controllers/protected-resource';
+export {default as McpAuthServer} from './routes/auth';
+export {default as protectedRoute} from './middlewares/protected-route';

@@ -53,18 +53,10 @@ export interface AuthorizationServerMetadata {
  * These options are used to generate the complete authorization server metadata.
  */
 export interface AuthorizationServerMetadataOptions {
-  /** The base URL of the authorization server that will be used as the issuer identifier */
-  issuerUrl: string;
+  /** The base URL of the authorization server */
+  baseUrl: string;
   /** Optional URL pointing to the service documentation */
-  serviceDocUrl?: string;
-  /** Optional array of supported authentication methods for the token endpoint */
-  supportedAuthMethods?: string[];
-  /** Optional array of supported OAuth 2.0 scopes */
-  supportedScopes?: string[];
-  /** Optional array of supported signing algorithms */
-  supportedSigningAlgs?: string[];
-  /** Optional array of supported UI locales */
-  supportedUILocales?: string[];
+  serviceDocumentation?: string;
 }
 
 /**
@@ -93,10 +85,10 @@ export interface ProtectedResourceMetadataOptions {
   authorizationServers: string[];
   /** Array of supported bearer token presentation methods */
   bearerMethodsSupported?: string[];
-  /** URL of the protected resource's documentation */
-  resourceDocUrl?: string;
   /** The URL of the protected resource */
-  resourceUrl: string;
+  resource: string;
+  /** URL of the protected resource's documentation */
+  resourceDocumentation?: string;
   /** Array of OAuth 2.0 scope values that the protected resource supports */
   supportedScopes?: string[];
 }

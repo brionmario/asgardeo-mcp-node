@@ -31,7 +31,7 @@ export default function generateProtectedResourceMetadata(
   // Disabling the sort-keys rule to maintain the order of the keys as per the RFC.
   /* eslint-disable sort-keys */
   const metadata: ProtectedResourceMetadata = {
-    resource: options.resourceUrl,
+    resource: options.resource,
     authorization_servers: options.authorizationServers,
     bearer_methods_supported: options.bearerMethodsSupported || ['header'],
   };
@@ -41,8 +41,8 @@ export default function generateProtectedResourceMetadata(
     metadata.scopes_supported = options.supportedScopes;
   }
 
-  if (options.resourceDocUrl) {
-    metadata.resource_documentation = options.resourceDocUrl;
+  if (options.resourceDocumentation) {
+    metadata.resource_documentation = options.resourceDocumentation;
   }
 
   return metadata;

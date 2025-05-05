@@ -29,34 +29,35 @@ export default function generateAuthorizationServerMetadata(
   options: AuthorizationServerMetadataOptions,
 ): AuthorizationServerMetadata {
   const metadata: AuthorizationServerMetadata = {
-    authorization_endpoint: `${options.issuerUrl}/authorize`,
-    issuer: options.issuerUrl,
+    authorization_endpoint: `${options.baseUrl}/authorize`,
+    issuer: `${options.baseUrl}/oauth2/token`,
     response_types_supported: ['code'],
-    token_endpoint: `${options.issuerUrl}/token`,
+    token_endpoint: `${options.baseUrl}/oauth2/token`,
   };
 
-  if (options.supportedScopes && options.supportedScopes.length > 0) {
-    metadata.scopes_supported = options.supportedScopes;
+  // TODO: Check this further.
+  // if (options.scopesSupported && options.scopesSupported.length > 0) {
+  //   metadata.scopes_supported = options.scopesSupported;
+  // }
+
+  // if (options.supportedAuthMethods && options.supportedAuthMethods.length > 0) {
+  //   metadata.token_endpoint_auth_methods_supported = options.supportedAuthMethods;
+  // }
+
+  // if (options.supportedSigningAlgs && options.supportedSigningAlgs.length > 0) {
+  //   metadata.token_endpoint_auth_signing_alg_values_supported = options.supportedSigningAlgs;
+  // }
+
+  // if (options.supportedUILocales && options.supportedUILocales.length > 0) {
+  //   metadata.ui_locales_supported = options.supportedUILocales;
+  // }
+
+  if (options.serviceDocumentation) {
+    metadata.service_documentation = options.serviceDocumentation;
   }
 
-  if (options.supportedAuthMethods && options.supportedAuthMethods.length > 0) {
-    metadata.token_endpoint_auth_methods_supported = options.supportedAuthMethods;
-  }
-
-  if (options.supportedSigningAlgs && options.supportedSigningAlgs.length > 0) {
-    metadata.token_endpoint_auth_signing_alg_values_supported = options.supportedSigningAlgs;
-  }
-
-  if (options.supportedUILocales && options.supportedUILocales.length > 0) {
-    metadata.ui_locales_supported = options.supportedUILocales;
-  }
-
-  if (options.serviceDocUrl) {
-    metadata.service_documentation = options.serviceDocUrl;
-  }
-
-  // Add JWKS endpoint if issuer URL is provided
-  metadata.jwks_uri = `${options.issuerUrl}/jwks.json`;
+  // TODO: Check this further.
+  metadata.jwks_uri = `${options.baseUrl}/jwks.json`;
 
   return metadata;
 }

@@ -1,6 +1,6 @@
 import express from 'express';
 import {config} from 'dotenv';
-import {McpAuth, protectedRoute} from '@asgardeo/mcp-express';
+import {McpAuthServer, protectedRoute} from '@asgardeo/mcp-express';
 import {protectedRoutes} from './routes/protected';
 import {publicRoutes} from './routes/public';
 
@@ -11,7 +11,7 @@ const port = process.env.PORT || 3000;
 
 app.use(express.json());
 
-app.use(McpAuth());
+app.use(McpAuthServer());
 
 // Public routes
 app.use('/api', publicRoutes);
