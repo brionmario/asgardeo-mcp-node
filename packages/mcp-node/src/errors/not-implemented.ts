@@ -16,4 +16,9 @@
  * under the License.
  */
 
-export function asgardeoMcpAuth(): void {}
+export class NotImplementedError extends Error {
+  constructor(message: string = 'This feature is not implemented yet') {
+    super(message);
+    this.name = 'NotImplementedError';
+  }
+}

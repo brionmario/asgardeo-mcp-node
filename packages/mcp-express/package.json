@@ -51,6 +51,7 @@
     "access": "public"
   },
   "dependencies": {
+    "@asgardeo/mcp-node": "workspace:^",
     "cors": "^2.8.5",
     "express": "^4.21.2",
     "tslib": "^2.8.1"

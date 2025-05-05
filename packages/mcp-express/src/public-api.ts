@@ -16,5 +16,6 @@
  * under the License.
  */
 
-export * from './middlewares/auth.js';
-export {asgardeoMCPAuthRouter} from './router.js';
+export {default as McpAuth} from './routes/auth';
+export {getAuthorizationServerMetadata} from './controllers/authorization-server';
+export {getProtectedResourceMetadata} from './controllers/protected-resource';

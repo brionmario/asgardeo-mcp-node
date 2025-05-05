@@ -1,23 +1,23 @@
 import express from 'express';
 import {config} from 'dotenv';
-import {asgardeoMcpAuth} from '@asgardeo/mcp-express';
+import {McpAuth, protectedRoute} from '@asgardeo/mcp-express';
 import {protectedRoutes} from './routes/protected';
 import {publicRoutes} from './routes/public';
 
-// Load environment variables
 config();
 
 const app = express();
 const port = process.env.PORT || 3000;
 
-// JSON middleware
 app.use(express.json());
+
+app.use(McpAuth());
 
 // Public routes
 app.use('/api', publicRoutes);
 
 // Protected routes with MCP authentication
-app.use('/api/protected', asgardeoMcpAuth(), protectedRoutes);
+app.use('/api/protected', protectedRoute(), protectedRoutes);
 
 // Error handling middleware
 app.use((err: Error, req: express.Request, res: express.Response, next: express.NextFunction) => {

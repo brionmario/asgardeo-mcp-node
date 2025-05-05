@@ -16,10 +16,10 @@
  * under the License.
  */
 
-export * from './errors/not-implemented';
-export * from './models/authorization-server';
-export * from './models/mcp-auth';
-export * from './constants/authorization-server';
-export * from './utils/generate-authorization-server-metadata';
-export * from './utils/generate-protected-resource-metadata';
-export * from './utils/create-verify-token';
+export interface McpAuthOptions {
+  providers: McpAuthProvider[];
+}
+
+export interface McpAuthProvider {
+  issuer: string;
+}

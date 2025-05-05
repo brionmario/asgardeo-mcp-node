@@ -1,8 +1,8 @@
 {
   "private": true,
-  "name": "@asgardeo/express-mcp-client",
+  "name": "@asgardeo/express-mcp-server",
   "version": "0.0.0",
-  "description": "Example Express application demonstrating MCP authorization using Asgardeo",
+  "description": "Example Express server demonstrating MCP authorization using Asgardeo",
   "keywords": [
     "asgardeo",
     "agents",
@@ -25,7 +25,7 @@
   "scripts": {
     "start": "ts-node-esm src/index.ts",
     "build": "tsc",
-    "dev": "nodemon --exec ts-node-esm src/index.ts"
+    "dev": "nodemon --exec node --loader ts-node/esm src/index.ts"
   },
   "dependencies": {
     "@asgardeo/mcp-express": "workspace:*",
