@@ -66,3 +66,37 @@ export interface AuthorizationServerMetadataOptions {
   /** Optional array of supported UI locales */
   supportedUILocales?: string[];
 }
+
+/**
+ * Interface representing the OAuth 2.0 Protected Resource Metadata.
+ * This metadata describes the configuration and capabilities of a protected resource.
+ * @see https://datatracker.ietf.org/doc/html/draft-ietf-oauth-resource-metadata
+ */
+export interface ProtectedResourceMetadata {
+  /** Array of authorization server URLs that the protected resource trusts */
+  authorization_servers: string[];
+  /** Array of supported bearer token presentation methods */
+  bearer_methods_supported: string[];
+  /** The URL of the protected resource */
+  resource: string;
+  /** URL of the protected resource's documentation */
+  resource_documentation?: string;
+  /** Array of OAuth 2.0 scope values that the protected resource supports */
+  scopes_supported?: string[];
+}
+
+/**
+ * Configuration options for creating protected resource metadata.
+ */
+export interface ProtectedResourceMetadataOptions {
+  /** Array of authorization server URLs that the protected resource trusts */
+  authorizationServers: string[];
+  /** Array of supported bearer token presentation methods */
+  bearerMethodsSupported?: string[];
+  /** URL of the protected resource's documentation */
+  resourceDocUrl?: string;
+  /** The URL of the protected resource */
+  resourceUrl: string;
+  /** Array of OAuth 2.0 scope values that the protected resource supports */
+  supportedScopes?: string[];
+}
