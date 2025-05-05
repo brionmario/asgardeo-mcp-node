@@ -16,4 +16,4 @@
  * under the License.
  */
 
-export * from './public-api.js';
+export * from './public-api';
