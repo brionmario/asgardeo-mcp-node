@@ -23,7 +23,7 @@ import {
   McpAuthProvider,
   McpAuthOptions,
   Asgardeo,
-} from '@asgardeo/mcp-node';
+} from '@brionmario-experimental/mcp-node';
 import express from 'express';
 import {getAuthorizationServerMetadata} from '../controllers/authorization-server';
 import {getProtectedResourceMetadata} from '../controllers/protected-resource';

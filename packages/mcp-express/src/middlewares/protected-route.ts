@@ -16,7 +16,7 @@
  * under the License.
  */
 
-import {AUTHORIZATION_SERVER_METADATA_URL} from '@asgardeo/mcp-node';
+import {AUTHORIZATION_SERVER_METADATA_URL} from '@brionmario-experimental/mcp-node';
 import {NextFunction, Request, Response} from 'express';
 
 export default function protectedRoute(req: Request, res: Response, next: NextFunction): Response | undefined {

@@ -20,7 +20,7 @@ import {
   ProtectedResourceMetadata,
   ProtectedResourceMetadataOptions,
   generateProtectedResourceMetadata,
-} from '@asgardeo/mcp-node';
+} from '@brionmario-experimental/mcp-node';
 import cors from 'cors';
 import express, {RequestHandler, Request, Response, Router} from 'express';
 

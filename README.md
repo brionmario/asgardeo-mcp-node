@@ -9,11 +9,11 @@ This repository contains the Model Context Protocol (MCP) Express middleware tha
 ## Installation
 
 ```bash
-npm install @asgardeo/mcp-express
+npm install @brionmario-experimental/mcp-express
 # or
-yarn add @asgardeo/mcp-express
+yarn add @brionmario-experimental/mcp-express
 # or 
-pnpm add @asgardeo/mcp-express
+pnpm add @brionmario-experimental/mcp-express
 ```
 
 ## Project Structure
