@@ -1,5 +1,13 @@
 # @brionmario-experimental/express-mcp-server
 
+## 0.0.3
+
+### Patch Changes
+
+- Updated dependencies
+  [[`3e952c0`](https://github.com/brionmario/mcp-node/commit/3e952c0bfb9da069f2193621d963e76bb54873af)]:
+  - @brionmario-experimental/mcp-express@0.0.3
+
 ## 0.0.2
 
 ### Patch Changes

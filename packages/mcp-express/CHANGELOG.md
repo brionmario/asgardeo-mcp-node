@@ -1,5 +1,17 @@
 # @brionmario-experimental/mcp-express
 
+## 0.0.3
+
+### Patch Changes
+
+- [#6](https://github.com/brionmario/mcp-node/pull/6)
+  [`3e952c0`](https://github.com/brionmario/mcp-node/commit/3e952c0bfb9da069f2193621d963e76bb54873af) Thanks
+  [@3nethz](https://github.com/3nethz)! - Fix endpoints to match the protocol, change error handling
+
+- Updated dependencies
+  [[`3e952c0`](https://github.com/brionmario/mcp-node/commit/3e952c0bfb9da069f2193621d963e76bb54873af)]:
+  - @brionmario-experimental/mcp-node@0.0.3
+
 ## 0.0.2
 
 ### Patch Changes
