@@ -22,7 +22,7 @@ export interface McpAuthOptions {
 
 export interface McpAuthProvider {
   baseUrl: string;
-  issuer?: string; 
-  clientId?: string; 
+  clientId?: string;
   clientSecret?: string;
+  issuer?: string;
 }

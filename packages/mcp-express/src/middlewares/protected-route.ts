@@ -16,7 +16,11 @@
  * under the License.
  */
 
-import {AUTHORIZATION_SERVER_METADATA_URL, validateAccessToken, McpAuthProvider} from '@asgardeo/mcp-node';
+import {
+  AUTHORIZATION_SERVER_METADATA_URL,
+  validateAccessToken,
+  McpAuthProvider,
+} from '@brionmario-experimental/mcp-node';
 import {NextFunction, Request, Response} from 'express';
 
 export default function protectedRoute(provider?: McpAuthProvider) {
@@ -48,7 +52,7 @@ export default function protectedRoute(provider?: McpAuthProvider) {
 
     const token = parts[1];
 
-    const issuerBase = provider?.baseUrl || 'https://api.asgardeo.io/t/thineth6424';
+    const issuerBase = provider?.baseUrl;
 
     const TOKEN_VALIDATION_CONFIG = {
       jwksUri: `${issuerBase}/oauth2/jwks`,
