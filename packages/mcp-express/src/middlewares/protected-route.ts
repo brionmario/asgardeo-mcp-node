@@ -16,15 +16,11 @@
  * under the License.
  */
 
-import {
-  PROTECTED_RESOURCE_URL,
-  validateAccessToken,
-  McpAuthProvider,
-} from '@brionmario-experimental/mcp-node';
+import {PROTECTED_RESOURCE_URL, validateAccessToken, McpAuthProvider} from '@brionmario-experimental/mcp-node';
 import {NextFunction, Request, Response} from 'express';
 
 export default function protectedRoute(provider?: McpAuthProvider) {
-  return async function (
+  return async function protectedMiddleware(
     req: Request,
     res: Response,
     next: NextFunction,
@@ -42,7 +38,7 @@ export default function protectedRoute(provider?: McpAuthProvider) {
       });
     }
 
-    const parts = authHeader.split(' ');
+    const parts: string[] = authHeader.split(' ');
     if (parts.length !== 2 || parts[0] !== 'Bearer') {
       return res.status(401).json({
         error: 'invalid_token',
@@ -50,16 +46,23 @@ export default function protectedRoute(provider?: McpAuthProvider) {
       });
     }
 
-    const token = parts[1];
+    const token: string = parts[1];
 
-    const issuerBase = provider?.baseUrl;
+    const issuerBase: string | undefined = provider?.baseUrl;
 
-    const TOKEN_VALIDATION_CONFIG = {
+    const TOKEN_VALIDATION_CONFIG: {
+      jwksUri: string;
+      options: {
+        audience?: string;
+        clockTolerance: number;
+        issuer: string;
+      };
+    } = {
       jwksUri: `${issuerBase}/oauth2/jwks`,
       options: {
-        issuer: `${issuerBase}/oauth2/token`,
         audience: provider?.clientId,
         clockTolerance: 60,
+        issuer: `${issuerBase}/oauth2/token`,
       },
     };
 
@@ -68,7 +71,6 @@ export default function protectedRoute(provider?: McpAuthProvider) {
       next();
       return undefined;
     } catch (error: any) {
-      console.error('Token validation failed:', error.message);
       return res.status(401).json({
         error: 'invalid_token',
         error_description: error.message || 'Invalid or expired token',
