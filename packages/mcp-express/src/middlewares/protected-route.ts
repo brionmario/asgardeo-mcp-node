@@ -17,7 +17,7 @@
  */
 
 import {
-  AUTHORIZATION_SERVER_METADATA_URL,
+  PROTECTED_RESOURCE_URL,
   validateAccessToken,
   McpAuthProvider,
 } from '@brionmario-experimental/mcp-node';
@@ -34,7 +34,7 @@ export default function protectedRoute(provider?: McpAuthProvider) {
     if (!authHeader) {
       res.setHeader(
         'WWW-Authenticate',
-        `Bearer resource_metadata="${req.protocol}://${req.get('host')}${AUTHORIZATION_SERVER_METADATA_URL}"`,
+        `Bearer resource_metadata="${req.protocol}://${req.get('host')}${PROTECTED_RESOURCE_URL}"`,
       );
       return res.status(401).json({
         error: 'unauthorized',

@@ -26,4 +26,4 @@ export const AUTHORIZATION_SERVER_METADATA_URL: string = '/.well-known/oauth-aut
  * The well-known path for OAuth 2.0 Resource Server Metadata.
  * @see https://datatracker.ietf.org/doc/html/rfc9728#name-obtaining-protected-resourc
  */
-export const PROTECTED_RESOURCE_URL: string = '/.well-known/protected-resource';
+export const PROTECTED_RESOURCE_URL: string = '/.well-known/oauth-protected-resource';
