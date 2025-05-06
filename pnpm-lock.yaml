@@ -35,7 +35,7 @@ importers:
 
   examples/express-mcp-server:
     dependencies:
-      '@asgardeo/mcp-express':
+      '@brionmario-experimental/mcp-express':
         specifier: workspace:*
         version: link:../../packages/mcp-express
       dotenv:
@@ -63,7 +63,7 @@ importers:
 
   packages/mcp-express:
     dependencies:
-      '@asgardeo/mcp-node':
+      '@brionmario-experimental/mcp-node':
         specifier: workspace:^
         version: link:../mcp-node
       cors:
