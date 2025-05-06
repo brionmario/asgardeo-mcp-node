@@ -3,4 +3,4 @@
 '@brionmario-experimental/mcp-node': minor
 ---
 
-fix endpoints to match the protocol, change error handling
+Fix endpoints to match the protocol, change error handling
