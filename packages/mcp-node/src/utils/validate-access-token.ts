@@ -17,7 +17,7 @@
  */
 
 import {URL} from 'url';
-import {createRemoteJWKSet, jwtVerify, JWTVerifyResult, JWTPayload, JWTVerifyOptions} from 'jose';
+import {createRemoteJWKSet, jwtVerify, JWTVerifyResult, JWTPayload, JWTVerifyOptions, ResolvedKey} from 'jose';
 
 export default async function validateAccessToken(
   accessToken: string,
@@ -47,13 +47,13 @@ export default async function validateAccessToken(
     throw new Error('Audience must be a non-empty string or array of strings in options.');
   }
 
-  const JWKS = createRemoteJWKSet(jwksUrl);
+  const JWKS: ReturnType<typeof createRemoteJWKSet> = createRemoteJWKSet(jwksUrl);
 
   try {
-    const result = await jwtVerify(accessToken, JWKS, {
-      issuer,
+    const result: JWTVerifyResult<JWTPayload> & ResolvedKey = await jwtVerify(accessToken, JWKS, {
       audience,
       clockTolerance,
+      issuer,
     });
 
     const SUPPORTED_SIGNATURE_ALGORITHMS: string[] = ['RS256', 'RS512', 'RS384', 'PS256'];
