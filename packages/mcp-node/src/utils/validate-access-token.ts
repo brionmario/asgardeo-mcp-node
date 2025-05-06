@@ -17,7 +17,7 @@
  */
 
 import {URL} from 'url';
-import {createRemoteJWKSet, jwtVerify, JWTVerifyResult, JWTPayload, JWTVerifyOptions} from 'jose';
+import {createRemoteJWKSet, jwtVerify, JWTVerifyResult, JWTPayload, JWTVerifyOptions, ResolvedKey} from 'jose';
 
 export default async function validateAccessToken(
   accessToken: string,
@@ -47,13 +47,13 @@ export default async function validateAccessToken(
     throw new Error('Audience must be a non-empty string or array of strings in options.');
   }
 
-  const JWKS = createRemoteJWKSet(jwksUrl);
+  const JWKS: ReturnType<typeof createRemoteJWKSet> = createRemoteJWKSet(jwksUrl);
 
   try {
-    const result = await jwtVerify(accessToken, JWKS, {
-      issuer,
+    const result: JWTVerifyResult<JWTPayload> & ResolvedKey = await jwtVerify(accessToken, JWKS, {
       audience,
       clockTolerance,
+      issuer,
     });
 
     const SUPPORTED_SIGNATURE_ALGORITHMS: string[] = ['RS256', 'RS512', 'RS384', 'PS256'];
@@ -70,22 +70,42 @@ export default async function validateAccessToken(
   } catch (error: any) {
     if (error.code) {
       switch (error.code) {
-        case 'ERR_JOSE_GENERIC':
-          if (error.message.includes('request failed')) {
-            throw new Error(`Failed to fetch JWKS from ${jwksUri}: ${error.message}`);
-          }
-          break;
-        case 'ERR_JOSE_NO_KEY_MATCHED':
-          throw new Error(`No matching key found in JWKS for the token's 'kid' header: ${error.message}`);
-        case 'ERR_JOSE_JWK_SET_MALFORMED':
-          throw new Error(`Malformed JWKS found at ${jwksUri}: ${error.message}`);
+        // JWKS specific issues
+        case 'ERR_JWKS_TIMEOUT':
+          throw new Error(`Timeout while fetching JWKS from ${jwksUri}: ${error.message}`);
+        case 'ERR_JWKS_NO_MATCHING_KEY':
+          throw new Error(`No matching key found in JWKS at ${jwksUri} for the token's header: ${error.message}`);
+        case 'ERR_JWKS_INVALID':
+          throw new Error(`Invalid or malformed JWKS found at ${jwksUri}: ${error.message}`);
+
+        // JWS/JWT structural or signature issues
+        case 'ERR_JWS_INVALID':
+          throw new Error(`Invalid JWS structure: ${error.message}`);
+        case 'ERR_JWT_INVALID':
+          throw new Error(`Invalid JWT structure or payload: ${error.message}`);
+        case 'ERR_JWS_SIGNATURE_VERIFICATION_FAILED':
+          throw new Error(`Token signature verification failed: ${error.message}`);
+
+        // Common JWT claim validation issues
+        case 'ERR_JWT_EXPIRED':
+          throw new Error(`Token has expired: ${error.message}`);
+        case 'ERR_JWT_CLAIM_VALIDATION_FAILED':
+          throw new Error(`JWT claim validation failed (${error.claim || 'unknown claim'}): ${error.message}`);
+
+        // Other JOSE potential issues
+        case 'ERR_JOSE_ALG_NOT_ALLOWED':
+          throw new Error(`Token algorithm is not allowed: ${error.message}`);
+        case 'ERR_JOSE_NOT_SUPPORTED':
+          throw new Error(`An unsupported JOSE feature/algorithm was encountered: ${error.message}`);
+
         default:
-          if (error.code.startsWith('ERR_JWT_')) {
-            throw new Error(`JWT validation error: ${error.message} (Code: ${error.code})`);
-          }
+          throw new Error(`JOSE validation error: ${error.message} (Code: ${error.code})`);
       }
     }
 
-    throw new Error(`An unexpected error occurred during token validation: ${error.message}`);
+    // Fallback for non-JOSE errors or errors without a code property
+    throw new Error(
+      `An unexpected error occurred during token validation: ${error instanceof Error ? error.message : String(error)}`,
+    );
   }
 }

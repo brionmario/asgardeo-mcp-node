@@ -57,7 +57,7 @@ export default function generateAuthorizationServerMetadata(
   }
 
   // TODO: Check this further.
-  metadata.jwks_uri = `${options.baseUrl}/jwks.json`;
+  metadata.jwks_uri = `${options.baseUrl}/oauth/jwks`;
 
   return metadata;
 }
