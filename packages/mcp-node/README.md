@@ -1,4 +1,4 @@
-# @asgardeo/mcp-node
+# @brionmario-experimental/mcp-node
 
 Node.js core library for enforcing Model Context Protocol (MCP) authorization using Asgardeo.
 
@@ -9,11 +9,11 @@ This package provides the core functionality for implementing Model Context Prot
 ## Installation
 
 ```bash
-npm install @asgardeo/mcp-node
+npm install @brionmario-experimental/mcp-node
 # or
-yarn add @asgardeo/mcp-node
+yarn add @brionmario-experimental/mcp-node
 # or 
-pnpm add @asgardeo/mcp-node
+pnpm add @brionmario-experimental/mcp-node
 ```
 
 ## Features
@@ -31,7 +31,7 @@ import {
   generateAuthorizationServerMetadata,
   generateProtectedResourceMetadata,
   Asgardeo
-} from '@asgardeo/mcp-node';
+} from '@brionmario-experimental/mcp-node';
 
 // Initialize the Asgardeo provider
 const provider = Asgardeo();
