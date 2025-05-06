@@ -1,6 +1,6 @@
 {
   "private": true,
-  "name": "@asgardeo/mcp-express-workspace",
+  "name": "@brionmario-experimental/mcp-express-workspace",
   "version": "0.0.0",
   "description": "Workspace to hold the Express middleware for enforcing Model Context Protocol (MCP) authorization using Asgardeo.",
   "author": "WSO2",

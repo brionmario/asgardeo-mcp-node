@@ -1,5 +1,5 @@
 {
-  "name": "@asgardeo/mcp-express",
+  "name": "@brionmario-experimental/mcp-express",
   "version": "0.0.0",
   "description": "Express middleware for enforcing Model Context Protocol (MCP) authorization using Asgardeo.",
   "keywords": [
@@ -51,7 +51,7 @@
     "access": "public"
   },
   "dependencies": {
-    "@asgardeo/mcp-node": "workspace:^",
+    "@brionmario-experimental/mcp-node": "workspace:^",
     "cors": "^2.8.5",
     "express": "^4.21.2",
     "tslib": "^2.8.1"
