@@ -17,7 +17,7 @@ app.use(McpAuthServer());
 app.use('/api', publicRoutes);
 
 // Protected routes with MCP authentication
-app.use('/api/protected', protectedRoute(), protectedRoutes);
+app.use('/api/protected', protectedRoute, protectedRoutes);
 
 // Error handling middleware
 app.use((err: Error, req: express.Request, res: express.Response, next: express.NextFunction) => {

@@ -6,8 +6,7 @@ const router = express.Router();
 router.get('/profile', (req, res) => {
   // The user information would be available in req.user after MCP authentication
   res.json({
-    message: 'This is a protected profile endpoint',
-    user: req.user,
+    message: 'This is a protected profile endpoint'
   });
 });
 
