@@ -1,5 +1,5 @@
 ---
-'@brionmario-experimental/mcp-express': minor
+'@brionmario-experimental/mcp-express': patch
 '@brionmario-experimental/mcp-node': minor
 ---
 
