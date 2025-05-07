@@ -1,5 +1,13 @@
 # @brionmario-experimental/mcp-node
 
+## 0.0.4
+
+### Patch Changes
+
+- [#8](https://github.com/brionmario/mcp-node/pull/8)
+  [`8dbe302`](https://github.com/brionmario/mcp-node/commit/8dbe30202ba186bebc2626195c421a9a369a2bb5) Thanks
+  [@3nethz](https://github.com/3nethz)! - configure esbuild for Node.js environment with dual module support
+
 ## 0.0.3
 
 ### Patch Changes
