@@ -1,3 +1,4 @@
+// build.js
 import {build} from 'esbuild';
 import {exec} from 'child_process';
 import {promisify} from 'util';
@@ -10,7 +11,8 @@ const commonOptions = {
   entryPoints: ['src/index.ts'],
   bundle: true,
   platform: 'node',
-  external: ['jose', 'node-fetch'], // External dependencies that shouldn't be bundled
+  // External dependencies that shouldn't be bundled
+  external: ['express', 'cors', '@brionmario-experimental/mcp-node'],
   sourcemap: true,
   minify: true,
   target: 'node18', // Target Node.js version
