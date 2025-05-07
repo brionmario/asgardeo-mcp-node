@@ -36,7 +36,11 @@
     "directory": "packages/mcp-node"
   },
   "scripts": {
-    "build": "tsc -p tsconfig.lib.json",
+    "clean": "rm -rf dist",
+    "build": "node build.js",
+    "build:types": "tsc --emitDeclarationOnly --declaration",
+    "build:esm": "esbuild src/index.ts --bundle --platform=node --outfile=dist/index.js --format=esm --sourcemap --minify --external:jose --external:node-fetch",
+    "build:cjs": "esbuild src/index.ts --bundle --platform=node --outfile=dist/cjs/index.js --format=cjs --sourcemap --minify --external:jose --external:node-fetch",
     "fix:lint": "eslint --fix --ext .ts,.js src",
     "lint": "eslint --ext .ts,.js src"
   },
@@ -44,6 +48,7 @@
     "@types/node": "^22.15.3",
     "@wso2/eslint-plugin": "https://gitpkg.now.sh/brionmario/wso2-ui-configs/packages/eslint-plugin?4ee6f6be232d7631999d709a86b91612f1d34ce7",
     "@wso2/prettier-config": "https://gitpkg.now.sh/brionmario/wso2-ui-configs/packages/prettier-config?4ee6f6be232d7631999d709a86b91612f1d34ce7",
+    "esbuild": "^0.25.4",
     "eslint": "8.57.0",
     "prettier": "^2.6.2",
     "typescript": "~5.7.2"
@@ -55,5 +60,8 @@
     "jose": "^6.0.10",
     "node-fetch": "^3.3.2",
     "tslib": "^2.8.1"
+  },
+  "engines": {
+    "node": ">=18.0.0"
   }
 }
