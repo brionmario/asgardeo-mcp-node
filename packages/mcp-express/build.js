@@ -10,8 +10,7 @@ const commonOptions = {
   entryPoints: ['src/index.ts'],
   bundle: true,
   platform: 'node',
-  // External dependencies that shouldn't be bundled
-  external: ['express', 'cors', '@brionmario-experimental/mcp-node'],
+  external: ['jose', 'node-fetch'], // External dependencies that shouldn't be bundled
   sourcemap: true,
   minify: true,
   target: 'node18', // Target Node.js version
@@ -44,7 +43,8 @@ async function buildCJS() {
 // Generate TypeScript declaration files
 async function generateTypes() {
   try {
-    await execAsync('tsc --emitDeclarationOnly --declaration --outDir dist');
+    // Using the lib config to generate declarations
+    await execAsync('tsc -p tsconfig.lib.json --emitDeclarationOnly');
     console.log('✅ TypeScript declarations generated');
   } catch (error) {
     console.error('❌ Error generating TypeScript declarations:', error);
