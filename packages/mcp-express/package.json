@@ -36,7 +36,7 @@
   },
   "scripts": {
     "clean": "rm -rf dist",
-    "build": "node build.js",
+    "build": "node ./scripts/build.js",
     "build:types": "tsc --emitDeclarationOnly --declaration",
     "build:esm": "esbuild src/index.ts --bundle --platform=node --outfile=dist/index.js --format=esm --sourcemap --minify --external:express --external:cors --external:@brionmario-experimental/mcp-node",
     "build:cjs": "esbuild src/index.ts --bundle --platform=node --outfile=dist/cjs/index.js --format=cjs --sourcemap --minify --external:express --external:cors --external:@brionmario-experimental/mcp-node",
