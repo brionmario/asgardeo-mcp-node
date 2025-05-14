@@ -1,15 +1,33 @@
-import express from 'express';
+/**
+ * Copyright (c) 2025, WSO2 LLC. (https://www.wso2.com).
+ *
+ * WSO2 LLC. licenses this file to you under the Apache License,
+ * Version 2.0 (the "License"); you may not use this file except
+ * in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing,
+ * software distributed under the License is distributed on an
+ * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+ * KIND, either express or implied. See the License for the
+ * specific language governing permissions and limitations
+ * under the License.
+ */
+
 import {randomUUID} from 'node:crypto';
-import {McpServer} from '@modelcontextprotocol/sdk/server/mcp.js';
-import {StreamableHTTPServerTransport} from '@modelcontextprotocol/sdk/server/streamableHttp.js';
-import {isInitializeRequest} from '@modelcontextprotocol/sdk/types.js';
-import {z} from 'zod';
 import {McpAuthServer, protectedRoute} from '@brionmario-experimental/mcp-express';
+import {McpServer} from '@modelcontextprotocol/sdk/server/mcp';
+import {StreamableHTTPServerTransport} from '@modelcontextprotocol/sdk/server/streamableHttp';
+import {isInitializeRequest} from '@modelcontextprotocol/sdk/types';
 import {config} from 'dotenv';
+import express, {Express, Request, Response} from 'express';
+import {z} from 'zod';
 
 config();
 
-const app = express();
+const app: Express = express();
 app.use(express.json());
 app.use(
   McpAuthServer({
@@ -22,92 +40,81 @@ app.use(
   }),
 );
 
-// Explicitly define the transport type
 interface TransportMap {
   [sessionId: string]: {
-    transport: StreamableHTTPServerTransport;
     lastAccess: number;
+    transport: StreamableHTTPServerTransport;
   };
 }
 
-// Map to store transports by session ID
 const transports: TransportMap = {};
+const SESSION_TIMEOUT_MS: number = 30 * 60 * 1000;
 
-// Session timeout (30 minutes)
-const SESSION_TIMEOUT_MS = 30 * 60 * 1000;
+const isSessionExpired = (lastAccessTime: number): boolean => Date.now() - lastAccessTime > SESSION_TIMEOUT_MS;
 
-// Function to check if a session has expired
-const isSessionExpired = (lastAccessTime: number): boolean => {
-  return Date.now() - lastAccessTime > SESSION_TIMEOUT_MS;
-};
-
-// Handle POST requests for client-to-server communication
 app.post(
   '/mcp',
   protectedRoute({
     baseUrl: process.env.BASE_URL as string,
     issuer: process.env.ISSUER as string,
   }),
-  async (req, res) => {
+  async (req: Request, res: Response): Promise<void> => {
     try {
-      // Check for existing session ID
-      const sessionId = req.headers['mcp-session-id'] as string | undefined;
+      const sessionId: string | undefined = req.headers['mcp-session-id'] as string | undefined;
       let transport: StreamableHTTPServerTransport;
 
       if (sessionId && transports[sessionId]) {
-        // Check if session has expired
         if (isSessionExpired(transports[sessionId].lastAccess)) {
+          // eslint-disable-next-line no-console
           console.log(`Session expired: ${sessionId}`);
           transports[sessionId].transport.close();
           delete transports[sessionId];
 
-          // Return error for expired session
           res.status(401).json({
-            jsonrpc: '2.0',
             error: {
               code: -32000,
               message: 'Session expired',
             },
             id: null,
+            jsonrpc: '2.0',
           });
           return;
         }
 
-        // Reuse existing transport
         transport = transports[sessionId].transport;
-        // Update session last access time
         transports[sessionId].lastAccess = Date.now();
       } else if (!sessionId && isInitializeRequest(req.body)) {
-        
         let bearerToken: string | undefined;
-        const authHeader = req.headers.authorization as string | undefined;
+        const authHeader: string | undefined = req.headers.authorization as string | undefined;
         if (authHeader && authHeader.toLowerCase().startsWith('bearer ')) {
           bearerToken = authHeader.substring(7);
+          // eslint-disable-next-line no-console
           console.log(`Bearer token captured for new session.`);
         } else {
+          // eslint-disable-next-line no-console
           console.warn('MCP session initialized: No Bearer token found in Authorization header.');
         }
         transport = new StreamableHTTPServerTransport({
-          sessionIdGenerator: () => randomUUID(),
-          onsessioninitialized: newSessionId => {
-            // Store the transport by session ID
+          onsessioninitialized: (newSessionId: string): void => {
             transports[newSessionId] = {
-              transport: transport,
               lastAccess: Date.now(),
+              transport,
             };
+            // eslint-disable-next-line no-console
             console.log(`Session initialized: ${newSessionId}`);
           },
+          sessionIdGenerator: (): string => randomUUID(),
         });
 
-        // Clean up transport when closed
-        transport.onclose = () => {
+        transport.onclose = (): void => {
           if (transport.sessionId) {
+            // eslint-disable-next-line no-console
             console.log(`Session closed: ${transport.sessionId}`);
             delete transports[transport.sessionId];
           }
         };
 
-        const server = new McpServer({
+        const server: McpServer = new McpServer({
           name: 'example-server',
           version: '1.0.0',
         });
@@ -118,24 +125,20 @@ app.post(
           {
             petId: z.string().describe('The unique identifier for the pet.'),
           },
-          async ({petId}) => {
+          async ({petId}: {petId: string}) => {
             try {
-              if (bearerToken) {
-                console.log(`Tool 'get_pet_vaccination_info' called for pet ${petId} with token: ${bearerToken.substring(0, 10)}...`);
-              } else {
-                console.warn(`Tool 'get_pet_vaccination_info' called for pet ${petId} without a bearer token.`);
-              }
               return {
                 content: [
                   {
+                    text: `Retrieved vaccination info for pet ID: ${petId}. Token was ${
+                      bearerToken ? 'present' : 'absent'
+                    }.`,
                     type: 'text',
-                    text: `Retrieved vaccination info for pet ID: ${petId}. Token was ${bearerToken ? 'present' : 'absent'}.`,
                   },
                 ],
               };
             } catch (error) {
-              const errorMessage = error instanceof Error ? error.message : String(error);
-              console.error(`Error retrieving vaccination info: ${errorMessage}`);
+              const errorMessage: string = error instanceof Error ? error.message : String(error);
               throw new Error(`Failed to retrieve vaccination information: ${errorMessage}`);
             }
           },
@@ -145,100 +148,89 @@ app.post(
           'book_vet_appointment',
           'Books a new veterinary appointment for a specific pet. Requires user authentication and explicit consent via an authorization token.',
           {
-            petId: z.string().describe('The unique identifier for the pet.'),
             date: z.string().describe('Desired date for the appointment (e.g., YYYY-MM-DD).'),
-            time: z.string().describe('Desired time for the appointment (e.g., HH:MM AM/PM).'),
+            petId: z.string().describe('The unique identifier for the pet.'),
             reason: z.string().describe('The reason for the vet visit.'),
+            time: z.string().describe('Desired time for the appointment (e.g., HH:MM AM/PM).'),
           },
-          async ({petId, date, time, reason}) => { // bearerToken is accessible here
+          async ({date, petId, reason, time}: {date: string; petId: string; reason: string; time: string}) => {
             try {
-              // --- MODIFICATION: Use Bearer Token ---
-              if (bearerToken) {
-                console.log(`Tool 'book_vet_appointment' called for pet ${petId} with token: ${bearerToken.substring(0, 10)}...`);
-                // Use the token as needed
-              } else {
-                console.warn(`Tool 'book_vet_appointment' called for pet ${petId} without a bearer token.`);
-                // Handle missing token
-              }
-              // --- MODIFICATION END ---
               return {
                 content: [
                   {
+                    text: `Booked vet appointment for pet ID: ${petId} on ${date} at ${time} for: ${reason}. Token was ${
+                      bearerToken ? 'present' : 'absent'
+                    }.`,
                     type: 'text',
-                    text: `Booked vet appointment for pet ID: ${petId} on ${date} at ${time} for: ${reason}. Token was ${bearerToken ? 'present' : 'absent'}.`,
                   },
                 ],
               };
             } catch (error) {
-              const errorMessage = error instanceof Error ? error.message : String(error);
-              console.error(`Error booking appointment: ${errorMessage}`);
+              const errorMessage: string = error instanceof Error ? error.message : String(error);
               throw new Error(`Failed to book appointment: ${errorMessage}`);
             }
           },
         );
 
         try {
-          // Connect to the MCP server
           await server.connect(transport);
+          // eslint-disable-next-line no-console
           console.log('Server connected to transport');
         } catch (error) {
+          // eslint-disable-next-line no-console
           console.error(`Error connecting server to transport: ${error}`);
           res.status(500).json({
-            jsonrpc: '2.0',
             error: {
               code: -32000,
               message: 'Internal server error: Failed to connect to MCP server',
             },
             id: null,
+            jsonrpc: '2.0',
           });
           return;
         }
       } else {
-        // Invalid request
-        let message = 'Bad Request: No valid session ID provided for existing session.';
+        let message: string = 'Bad Request: No valid session ID provided for existing session.';
         if (!isInitializeRequest(req.body)) {
-            message = 'Bad Request: Not an initialization request and no session ID found.'
+          message = 'Bad Request: Not an initialization request and no session ID found.';
         }
         res.status(400).json({
-          jsonrpc: '2.0',
           error: {
-            code: -32000, // Or -32600 for Invalid Request as per JSON-RPC 2.0
-            message: message,
+            code: -32000,
+            message,
           },
-          id: req.body?.id || null, // Try to include request ID if available
+          id: req.body?.id || null,
+          jsonrpc: '2.0',
         });
         return;
       }
 
-      // Handle the request
       await transport.handleRequest(req, res, req.body);
     } catch (error) {
-      console.error(`Error handling MCP request: ${error}`);
-      // Ensure req.body is checked for 'id' property
-      const requestId = (typeof req.body === 'object' && req.body !== null && 'id' in req.body) ? req.body.id : null;
+      const requestId: string | number | null | undefined =
+        typeof req.body === 'object' && req.body !== null && 'id' in req.body ? req.body.id : null;
       res.status(500).json({
-        jsonrpc: '2.0',
         error: {
           code: -32000,
           message: 'Internal server error',
         },
         id: requestId,
+        jsonrpc: '2.0',
       });
     }
   },
 );
 
-// Reusable handler for GET and DELETE requests
-const handleSessionRequest = async (expressReq: express.Request, expressRes: express.Response) => {
+const handleSessionRequest = async (expressReq: Request, expressRes: Response): Promise<void> => {
   try {
-    const sessionId = expressReq.headers['mcp-session-id'] as string | undefined;
+    const sessionId: string | undefined = expressReq.headers['mcp-session-id'] as string | undefined;
     if (!sessionId || !transports[sessionId]) {
       expressRes.status(400).send('Invalid or missing session ID');
       return;
     }
 
-    // Check if session has expired
     if (isSessionExpired(transports[sessionId].lastAccess)) {
+      // eslint-disable-next-line no-console
       console.log(`Session expired: ${sessionId}`);
       transports[sessionId].transport.close();
       delete transports[sessionId];
@@ -246,25 +238,22 @@ const handleSessionRequest = async (expressReq: express.Request, expressRes: exp
       return;
     }
 
-    // Update session last access time
     transports[sessionId].lastAccess = Date.now();
 
-    const transport = transports[sessionId].transport;
+    const {transport}: {transport: StreamableHTTPServerTransport} = transports[sessionId];
     await transport.handleRequest(expressReq, expressRes);
   } catch (error) {
+    // eslint-disable-next-line no-console
     console.error(`Error handling session request: ${error}`);
     expressRes.status(500).send('Internal server error');
   }
 };
 
-// Handle GET requests for server-to-client notifications
 app.get('/mcp', handleSessionRequest);
-
-// Handle DELETE requests for session termination
 app.delete('/mcp', handleSessionRequest);
 
-// Start the server
-const PORT = process.env.PORT || 3000;
-app.listen(PORT, () => {
+const PORT: string | number = process.env.PORT || 3000;
+app.listen(PORT, (): void => {
+  // eslint-disable-next-line no-console
   console.log(`MCP server running on port ${PORT}`);
 });

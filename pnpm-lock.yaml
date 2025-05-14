@@ -61,7 +61,7 @@ importers:
         specifier: ^5.3.3
         version: 5.7.3
 
-  examples/mcp-server:
+  examples/express-mcp-vet-ai-assist-app:
     dependencies:
       '@brionmario-experimental/mcp-express':
         specifier: workspace:*
@@ -88,6 +88,15 @@ importers:
       '@types/node':
         specifier: ^20.10.0
         version: 20.17.41
+      '@wso2/eslint-plugin':
+        specifier: https://gitpkg.now.sh/brionmario/wso2-ui-configs/packages/eslint-plugin?4ee6f6be232d7631999d709a86b91612f1d34ce7
+        version: https://gitpkg.vercel.app/brionmario/wso2-ui-configs/packages/eslint-plugin?4ee6f6be232d7631999d709a86b91612f1d34ce7(eslint@8.57.0)(typescript@5.7.3)
+      '@wso2/prettier-config':
+        specifier: https://gitpkg.now.sh/brionmario/wso2-ui-configs/packages/prettier-config?4ee6f6be232d7631999d709a86b91612f1d34ce7
+        version: https://gitpkg.vercel.app/brionmario/wso2-ui-configs/packages/prettier-config?4ee6f6be232d7631999d709a86b91612f1d34ce7(prettier@2.8.8)(typescript@5.7.3)
+      eslint:
+        specifier: 8.57.0
+        version: 8.57.0
       nodemon:
         specifier: ^3.0.2
         version: 3.1.10
