@@ -78,7 +78,15 @@ app.post(
         // Update session last access time
         transports[sessionId].lastAccess = Date.now();
       } else if (!sessionId && isInitializeRequest(req.body)) {
-        // New initialization request
+        
+        let bearerToken: string | undefined;
+        const authHeader = req.headers.authorization as string | undefined;
+        if (authHeader && authHeader.toLowerCase().startsWith('bearer ')) {
+          bearerToken = authHeader.substring(7);
+          console.log(`Bearer token captured for new session.`);
+        } else {
+          console.warn('MCP session initialized: No Bearer token found in Authorization header.');
+        }
         transport = new StreamableHTTPServerTransport({
           sessionIdGenerator: () => randomUUID(),
           onsessioninitialized: newSessionId => {
@@ -109,55 +117,62 @@ app.post(
           'Retrieves the vaccination history and upcoming vaccination dates for a specific pet. Requires user authentication and explicit consent via an authorization token.',
           {
             petId: z.string().describe('The unique identifier for the pet.'),
-            authorizationToken: z
-              .string()
-              .describe("A token representing the user's logged-in session and consent to access this pet's data."),
           },
           async ({petId}) => {
             try {
-              // Note: Authentication validation will be added later
+              if (bearerToken) {
+                console.log(`Tool 'get_pet_vaccination_info' called for pet ${petId} with token: ${bearerToken.substring(0, 10)}...`);
+              } else {
+                console.warn(`Tool 'get_pet_vaccination_info' called for pet ${petId} without a bearer token.`);
+              }
               return {
                 content: [
                   {
                     type: 'text',
-                    text: `Retrieved vaccination info for pet ID: ${petId}`,
+                    text: `Retrieved vaccination info for pet ID: ${petId}. Token was ${bearerToken ? 'present' : 'absent'}.`,
                   },
                 ],
               };
             } catch (error) {
-              console.error(`Error retrieving vaccination info: ${error}`);
-              throw new Error(`Failed to retrieve vaccination information`);
+              const errorMessage = error instanceof Error ? error.message : String(error);
+              console.error(`Error retrieving vaccination info: ${errorMessage}`);
+              throw new Error(`Failed to retrieve vaccination information: ${errorMessage}`);
             }
           },
         );
 
-        // Tool: Book Vet Appointment
         server.tool(
           'book_vet_appointment',
           'Books a new veterinary appointment for a specific pet. Requires user authentication and explicit consent via an authorization token.',
           {
             petId: z.string().describe('The unique identifier for the pet.'),
-            authorizationToken: z
-              .string()
-              .describe("A token representing the user's logged-in session and consent to access this pet's data."),
             date: z.string().describe('Desired date for the appointment (e.g., YYYY-MM-DD).'),
             time: z.string().describe('Desired time for the appointment (e.g., HH:MM AM/PM).'),
             reason: z.string().describe('The reason for the vet visit.'),
           },
-          async ({petId, authorizationToken, date, time, reason}) => {
+          async ({petId, date, time, reason}) => { // bearerToken is accessible here
             try {
-              // Note: Authentication validation will be added later
+              // --- MODIFICATION: Use Bearer Token ---
+              if (bearerToken) {
+                console.log(`Tool 'book_vet_appointment' called for pet ${petId} with token: ${bearerToken.substring(0, 10)}...`);
+                // Use the token as needed
+              } else {
+                console.warn(`Tool 'book_vet_appointment' called for pet ${petId} without a bearer token.`);
+                // Handle missing token
+              }
+              // --- MODIFICATION END ---
               return {
                 content: [
                   {
                     type: 'text',
-                    text: `Booked vet appointment for pet ID: ${petId} on ${date} at ${time} for: ${reason}`,
+                    text: `Booked vet appointment for pet ID: ${petId} on ${date} at ${time} for: ${reason}. Token was ${bearerToken ? 'present' : 'absent'}.`,
                   },
                 ],
               };
             } catch (error) {
-              console.error(`Error booking appointment: ${error}`);
-              throw new Error(`Failed to book appointment`);
+              const errorMessage = error instanceof Error ? error.message : String(error);
+              console.error(`Error booking appointment: ${errorMessage}`);
+              throw new Error(`Failed to book appointment: ${errorMessage}`);
             }
           },
         );
@@ -180,13 +195,17 @@ app.post(
         }
       } else {
         // Invalid request
+        let message = 'Bad Request: No valid session ID provided for existing session.';
+        if (!isInitializeRequest(req.body)) {
+            message = 'Bad Request: Not an initialization request and no session ID found.'
+        }
         res.status(400).json({
           jsonrpc: '2.0',
           error: {
-            code: -32000,
-            message: 'Bad Request: No valid session ID provided',
+            code: -32000, // Or -32600 for Invalid Request as per JSON-RPC 2.0
+            message: message,
           },
-          id: null,
+          id: req.body?.id || null, // Try to include request ID if available
         });
         return;
       }
@@ -195,24 +214,26 @@ app.post(
       await transport.handleRequest(req, res, req.body);
     } catch (error) {
       console.error(`Error handling MCP request: ${error}`);
+      // Ensure req.body is checked for 'id' property
+      const requestId = (typeof req.body === 'object' && req.body !== null && 'id' in req.body) ? req.body.id : null;
       res.status(500).json({
         jsonrpc: '2.0',
         error: {
           code: -32000,
           message: 'Internal server error',
         },
-        id: null,
+        id: requestId,
       });
     }
   },
 );
 
 // Reusable handler for GET and DELETE requests
-const handleSessionRequest = async (req: express.Request, res: express.Response) => {
+const handleSessionRequest = async (expressReq: express.Request, expressRes: express.Response) => {
   try {
-    const sessionId = req.headers['mcp-session-id'] as string | undefined;
+    const sessionId = expressReq.headers['mcp-session-id'] as string | undefined;
     if (!sessionId || !transports[sessionId]) {
-      res.status(400).send('Invalid or missing session ID');
+      expressRes.status(400).send('Invalid or missing session ID');
       return;
     }
 
@@ -221,7 +242,7 @@ const handleSessionRequest = async (req: express.Request, res: express.Response)
       console.log(`Session expired: ${sessionId}`);
       transports[sessionId].transport.close();
       delete transports[sessionId];
-      res.status(401).send('Session expired');
+      expressRes.status(401).send('Session expired');
       return;
     }
 
@@ -229,10 +250,10 @@ const handleSessionRequest = async (req: express.Request, res: express.Response)
     transports[sessionId].lastAccess = Date.now();
 
     const transport = transports[sessionId].transport;
-    await transport.handleRequest(req, res);
+    await transport.handleRequest(expressReq, expressRes);
   } catch (error) {
     console.error(`Error handling session request: ${error}`);
-    res.status(500).send('Internal server error');
+    expressRes.status(500).send('Internal server error');
   }
 };
 
