@@ -29,7 +29,7 @@ export default function generateAuthorizationServerMetadata(
   options: AuthorizationServerMetadataOptions,
 ): AuthorizationServerMetadata {
   const metadata: AuthorizationServerMetadata = {
-    authorization_endpoint: `${options.baseUrl}/authorize`,
+    authorization_endpoint: `${options.baseUrl}/oauth2/authorize`,
     issuer: `${options.baseUrl}/oauth2/token`,
     response_types_supported: ['code'],
     token_endpoint: `${options.baseUrl}/oauth2/token`,
