@@ -19,7 +19,7 @@
 import {URL} from 'url';
 import {createRemoteJWKSet, jwtVerify, JWTVerifyResult, JWTPayload, JWTVerifyOptions, ResolvedKey} from 'jose';
 
-export default async function validateAccessToken(
+export default async function validateToken(
   accessToken: string,
   jwksUri: string,
   options: JWTVerifyOptions,
