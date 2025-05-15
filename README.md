@@ -25,6 +25,12 @@ This repository contains the source code for Node.js SDKs that help you enforce 
 [![Join the chat at https://discord.gg/wso2](https://img.shields.io/badge/Join%20us%20on-Discord-%23e01563.svg)](https://discord.gg/wso2)
 [![Follow Asgardeo on Twitter](https://img.shields.io/twitter/follow/Asgardeo?style=social&label=Follow%20Asgardeo)](https://twitter.com/intent/follow?screen_name=Asgardeo)
 
+## Quickstart
+
+For Express.js applications, we recommend using the @brionmario-experimental/mcp-express package.
+
+To get started quickly with Express.js, please refer to the [README.md](./packages/mcp-express/README.md) for mcp-express.
+
 ## Packages
 
 | Package                                                                                                   | Description                                                                                   |
@@ -43,38 +49,6 @@ The Model Context Protocol (MCP) is designed to provide a standardized way for a
 
 For detailed installation and usage instructions for each package, please refer to the README file within its respective directory (e.g., `packages/mcp-express/README.md`).
 
-## Prerequisites
-
-Before you begin, ensure you have the following prerequisites installed:
-- Node.js `16.x` or later
-- pnpm `8.x` or later (or your preferred package manager like npm/yarn, though pnpm is often used in monorepos)
-
-## Development
-
-To get started with development:
-
-1.  **Clone the repository:**
-    ```bash
-    git clone [https://github.com/brionmario/asgardeo-mcp-node.git](https://github.com/brionmario/asgardeo-mcp-node.git)
-    cd asgardeo-mcp-node
-    ```
-
-2.  **Install dependencies:**
-    If you are using pnpm and have a workspace setup:
-    ```bash
-    pnpm install
-    ```
-    This will typically install dependencies for all packages in the monorepo.
-
-3.  **Build packages:**
-    You will likely have a root-level build command or individual build commands per package. Example using pnpm workspaces:
-    ```bash
-    pnpm run build
-    # or to build a specific package
-    # pnpm --filter @brionmario-experimental/mcp-express run build
-    ```
-
-Please refer to the `package.json` scripts and individual package READMEs for more detailed development commands.
 
 ## Contribute
 
