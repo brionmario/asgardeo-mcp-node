@@ -1,10 +1,15 @@
 # @brionmario-experimental/mcp-express
 
+[![npm version](https://img.shields.io/npm/v/@brionmario-experimental/mcp-express.svg?style=flat-square)](https://www.npmjs.com/package/@brionmario-experimental/mcp-express)
+[![npm downloads](https://img.shields.io/npm/dm/@brionmario-experimental/mcp-express.svg?style=flat-square)](https://www.npmjs.com/package/@brionmario-experimental/mcp-express)
+
 Express middleware for enforcing Model Context Protocol (MCP) authorization using Asgardeo.
 
 ## Overview
 
 This package provides Express middleware that implements Model Context Protocol (MCP) based authorization for Express.js applications. It integrates with Asgardeo for authentication and authorization services.
+
+This package is part of the [Asgardeo MCP Node.js SDKs monorepo](https://github.com/brionmario/asgardeo-mcp-node#readme). For overall project information, contribution guidelines, and details on other related packages, please refer to the main repository.
 
 ## Installation
 
@@ -116,8 +121,6 @@ app.listen(port, () => {
   console.log(`Server is running on port ${port}`);
 });
 ```
-
-## Development
 
 ### Prerequisites
 
