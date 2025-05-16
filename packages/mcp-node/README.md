@@ -7,9 +7,13 @@ Node.js core library for enforcing Model Context Protocol (MCP) authorization us
 
 ## Overview
 
-This package provides the core functionality for implementing Model Context Protocol (MCP) based authorization in Node.js applications. It serves as the foundation for higher-level implementations like the Express middleware (`@brionmario-experimental/mcp-express`).
+This package provides the core functionality for implementing Model Context Protocol (MCP) based authorization in
+Node.js applications. It serves as the foundation for higher-level implementations like the Express middleware
+(`@brionmario-experimental/mcp-express`).
 
-This package is part of the [Asgardeo MCP Node.js SDKs monorepo](https://github.com/brionmario/asgardeo-mcp-node#readme). For overall project information, contribution guidelines, and details on other related packages, please refer to the main repository.
+This package is part of the
+[Asgardeo MCP Node.js SDKs monorepo](https://github.com/brionmario/asgardeo-mcp-node#readme). For overall project
+information, contribution guidelines, and details on other related packages, please refer to the main repository.
 
 ## Installation
 
@@ -17,7 +21,7 @@ This package is part of the [Asgardeo MCP Node.js SDKs monorepo](https://github.
 npm install @brionmario-experimental/mcp-node
 # or
 yarn add @brionmario-experimental/mcp-node
-# or 
+# or
 pnpm add @brionmario-experimental/mcp-node
 ```
 
@@ -26,62 +30,82 @@ pnpm add @brionmario-experimental/mcp-node
 - Authorization server metadata generation
 - Protected resource metadata generation
 - Token verification utilities
-- Built-in Asgardeo provider
-- Extensible authentication provider system
 
 ## Usage
 
 ```typescript
-import { 
+import {
   generateAuthorizationServerMetadata,
   generateProtectedResourceMetadata,
-  Asgardeo
 } from '@brionmario-experimental/mcp-node';
 
-// Initialize the Asgardeo provider
-const provider = Asgardeo();
+baseUrl: string = 'https://api.asgardeo.io/<your-org-name>';
 
 // Generate authorization server metadata
 const serverMetadata = generateAuthorizationServerMetadata({
-  baseUrl: provider.baseUrl
+  baseUrl,
 });
 
 // Generate protected resource metadata
 const resourceMetadata = generateProtectedResourceMetadata({
-  authorizationServers: [provider.baseUrl],
-  resource: 'https://api.example.com'
+  authorizationServers: [baseUrl],
+  resource: 'https://api.example.com',
 });
 ```
 
 ## API Reference
 
-### Providers
-
-#### Asgardeo()
-Creates an Asgardeo provider instance with pre-configured settings.
-
-```typescript
-const provider = Asgardeo();
-```
-
 ### Metadata Generation
 
 #### generateAuthorizationServerMetadata(options)
+
 Generates metadata for the authorization server.
 
 ```typescript
 const metadata = generateAuthorizationServerMetadata({
-  baseUrl: 'https://api.asgardeo.io'
+  baseUrl: 'https://api.asgardeo.io',
 });
 ```
 
 #### generateProtectedResourceMetadata(options)
+
 Generates metadata for protected resources.
 
 ```typescript
 const metadata = generateProtectedResourceMetadata({
   authorizationServers: ['https://api.asgardeo.io'],
-  resource: 'https://api.example.com'
+  resource: 'https://api.example.com',
+});
+```
+
+### Configuration
+
+#### McpAuthOptions
+
+Configuration options used across MCP packages.
+
+```typescript
+interface McpAuthOptions {
+  /** Base URL of the authorization server */
+  baseUrl: string;
+  /** Optional audience value for token validation */
+  audience?: string;
+}
+```
+
+### Token Verification
+
+#### validateToken(accessToken, jwksUri, options)
+
+Verifies a JWT access token using the authorization server's JWKS endpoint.
+
+```typescript
+import {validateToken} from '@brionmario-experimental/mcp-node';
+
+await validateToken('<token>', 'https://api.asgardeo.io/oauth2/jwks', {
+  issuer: 'https://api.asgardeo.io/oauth2/token',
+  audience: 'mcp-client-id',
+  clockTolerance: 60,
 });
 ```
 
@@ -94,16 +118,19 @@ const metadata = generateProtectedResourceMetadata({
 
 1. Clone the repository
 2. Install dependencies:
+
 ```bash
 pnpm install
 ```
 
 ### Build
+
 ```bash
 pnpm build
 ```
 
 ### Lint
+
 ```bash
 pnpm lint
 ```

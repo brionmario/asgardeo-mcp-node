@@ -18,29 +18,24 @@
 
 import {
   AUTHORIZATION_SERVER_METADATA_URL,
-  NotImplementedError,
   PROTECTED_RESOURCE_URL,
-  McpAuthProvider,
   McpAuthOptions,
-  Asgardeo,
 } from '@brionmario-experimental/mcp-node';
 import express from 'express';
 import {getAuthorizationServerMetadata} from '../controllers/authorization-server';
 import {getProtectedResourceMetadata} from '../controllers/protected-resource';
 
-export default function AuthRouter(options?: McpAuthOptions): express.Router {
+export default function AuthRouter(options: McpAuthOptions): express.Router {
   const router: express.Router = express.Router();
-
-  const providers: McpAuthProvider[] = options?.providers || [Asgardeo()];
-
-  if (providers.length > 1) {
-    throw new NotImplementedError('Multiple providers support is not implemented yet');
+  const baseUrl: string = options.baseUrl;
+  if (!baseUrl) {
+    throw new Error('baseUrl must be provided');
   }
 
   router.use(
     PROTECTED_RESOURCE_URL,
     getProtectedResourceMetadata({
-      authorizationServers: providers.map((provider: McpAuthProvider) => provider.baseUrl),
+      authorizationServers: [baseUrl],
       resource: 'https://api.example.com',
     }),
   );
@@ -48,7 +43,7 @@ export default function AuthRouter(options?: McpAuthOptions): express.Router {
   router.use(
     AUTHORIZATION_SERVER_METADATA_URL,
     getAuthorizationServerMetadata({
-      baseUrl: `${providers[0].baseUrl}`,
+      baseUrl,
     }),
   );
 

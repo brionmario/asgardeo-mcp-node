@@ -24,9 +24,8 @@ export {
   ProtectedResourceMetadata,
   ProtectedResourceMetadataOptions,
 } from './models/authorization-server';
-export {McpAuthOptions, McpAuthProvider} from './models/mcp-auth';
+export {McpAuthOptions} from './models/mcp-auth';
 export {default as validateToken} from './utils/validate-token';
 export {default as generateAuthorizationServerMetadata} from './utils/generate-authorization-server-metadata';
 export {default as generateProtectedResourceMetadata} from './utils/generate-protected-resource-metadata';
 
-export {default as Asgardeo} from './providers/Asgardeo';

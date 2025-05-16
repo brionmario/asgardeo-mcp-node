@@ -7,9 +7,12 @@ Express middleware for enforcing Model Context Protocol (MCP) authorization usin
 
 ## Overview
 
-This package provides Express middleware that implements Model Context Protocol (MCP) based authorization for Express.js applications. It integrates with Asgardeo for authentication and authorization services.
+This package provides Express middleware that implements Model Context Protocol (MCP) based authorization for Express.js
+applications. It integrates with Asgardeo for authentication and authorization services.
 
-This package is part of the [Asgardeo MCP Node.js SDKs monorepo](https://github.com/brionmario/asgardeo-mcp-node#readme). For overall project information, contribution guidelines, and details on other related packages, please refer to the main repository.
+This package is part of the
+[Asgardeo MCP Node.js SDKs monorepo](https://github.com/brionmario/asgardeo-mcp-node#readme). For overall project
+information, contribution guidelines, and details on other related packages, please refer to the main repository.
 
 ## Installation
 
@@ -17,7 +20,7 @@ This package is part of the [Asgardeo MCP Node.js SDKs monorepo](https://github.
 npm install @brionmario-experimental/mcp-express
 # or
 yarn add @brionmario-experimental/mcp-express
-# or 
+# or
 pnpm add @brionmario-experimental/mcp-express
 ```
 
@@ -33,59 +36,58 @@ pnpm add @brionmario-experimental/mcp-express
 
 ```typescript
 import express from 'express';
-import { McpAuthServer, protectedRoute } from '@brionmario-experimental/mcp-express';
+import {McpAuthServer, protectedRoute} from '@brionmario-experimental/mcp-express';
 
 const app = express();
 
-// Initialize MCP authentication server
-app.use(McpAuthServer());
+// Initialize MCP authentication server with baseUrl
+app.use(
+  McpAuthServer({
+    baseUrl: process.env.BASE_URL as string,
+  }),
+);
 
 // Public routes
 app.get('/api/public', (req, res) => {
-  res.json({ message: 'This is a public endpoint' });
+  res.json({message: 'This is a public endpoint'});
 });
 
 // Protected routes
 app.use('/api/protected', protectedRoute, (req, res) => {
-  res.json({ message: 'This is a protected endpoint' });
+  res.json({message: 'This is a protected endpoint'});
 });
 ```
 
-## API Reference
+### API Reference
 
-### Middleware
+#### McpAuthServer(options)
 
-#### McpAuthServer(options?)
-Initializes the MCP authentication server middleware. This sets up the necessary endpoints for MCP authentication.
+Initializes the MCP authentication server middleware with the given configuration.
 
 ```typescript
-import { McpAuthServer } from '@brionmario-experimental/mcp-express';
+import {McpAuthServer} from '@brionmario-experimental/mcp-express';
 
-app.use(McpAuthServer({
-  providers: [Asgardeo()]
-}));
+app.use(McpAuthServer({baseUrl: 'https://auth.example.com'}));
 ```
 
 #### protectedRoute
+
 Middleware to protect routes that require authentication.
 
 ```typescript
-import { protectedRoute } from '@brionmario-experimental/mcp-express';
+import {protectedRoute} from '@brionmario-experimental/mcp-express';
 
 app.use('/api/protected', protectedRoute, protectedRoutes);
 ```
 
 ### Configuration
 
-The middleware can be configured with the following options:
+The middleware can be configured with the following option:
 
 ```typescript
 interface McpAuthOptions {
-  providers: McpAuthProvider[];  // Array of authentication providers
-}
-
-interface McpAuthProvider {
-  baseUrl: string;  // Base URL of the authentication provider
+  /** Base URL of the authorization server */
+  baseUrl: string;
 }
 ```
 
@@ -95,7 +97,7 @@ Here's a complete example of setting up an Express server with MCP authenticatio
 
 ```typescript
 import express from 'express';
-import { McpAuthServer, protectedRoute } from '@brionmario-experimental/mcp-express';
+import {McpAuthServer, protectedRoute} from '@brionmario-experimental/mcp-express';
 
 const app = express();
 const port = process.env.PORT || 3000;
@@ -114,7 +116,7 @@ app.use('/api/protected', protectedRoute, protectedRoutes);
 // Error handling
 app.use((err, req, res, next) => {
   console.error(err.stack);
-  res.status(500).json({ error: 'Something broke!' });
+  res.status(500).json({error: 'Something broke!'});
 });
 
 app.listen(port, () => {
@@ -131,16 +133,19 @@ app.listen(port, () => {
 
 1. Clone the repository
 2. Install dependencies:
+
 ```bash
 pnpm install
 ```
 
 ### Build
+
 ```bash
 pnpm build
 ```
 
 ### Lint
+
 ```bash
 pnpm lint
 ```
