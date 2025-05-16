@@ -16,7 +16,7 @@
  * under the License.
  */
 
-import {PROTECTED_RESOURCE_URL, validateAccessToken, McpAuthProvider} from '@brionmario-experimental/mcp-node';
+import {PROTECTED_RESOURCE_URL, validateToken, McpAuthProvider} from '@brionmario-experimental/mcp-node';
 import {NextFunction, Request, Response} from 'express';
 
 export default function protectedRoute(provider?: McpAuthProvider) {
@@ -60,14 +60,14 @@ export default function protectedRoute(provider?: McpAuthProvider) {
     } = {
       jwksUri: `${issuerBase}/oauth2/jwks`,
       options: {
-        audience: provider?.clientId,
+        audience: provider?.audience,
         clockTolerance: 60,
         issuer: `${issuerBase}/oauth2/token`,
       },
     };
 
     try {
-      await validateAccessToken(token, TOKEN_VALIDATION_CONFIG.jwksUri, TOKEN_VALIDATION_CONFIG.options);
+      await validateToken(token, TOKEN_VALIDATION_CONFIG.jwksUri, TOKEN_VALIDATION_CONFIG.options);
       next();
       return undefined;
     } catch (error: any) {

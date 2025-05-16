@@ -1,4 +1,3 @@
-// build.js
 import {build} from 'esbuild';
 import {exec} from 'child_process';
 import {promisify} from 'util';
@@ -15,7 +14,7 @@ const commonOptions = {
   external: ['express', 'cors', '@brionmario-experimental/mcp-node'],
   sourcemap: true,
   minify: true,
-  target: 'node18', // Target Node.js version
+  target: 'node18',
 };
 
 // Build ESM version

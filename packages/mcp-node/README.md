@@ -1,10 +1,15 @@
 # @brionmario-experimental/mcp-node
 
+[![npm version](https://img.shields.io/npm/v/@brionmario-experimental/mcp-node.svg?style=flat-square)](https://www.npmjs.com/package/@brionmario-experimental/mcp-node)
+[![npm downloads](https://img.shields.io/npm/dm/@brionmario-experimental/mcp-node.svg?style=flat-square)](https://www.npmjs.com/package/@brionmario-experimental/mcp-node)
+
 Node.js core library for enforcing Model Context Protocol (MCP) authorization using Asgardeo.
 
 ## Overview
 
-This package provides the core functionality for implementing Model Context Protocol (MCP) based authorization in Node.js applications. It serves as the foundation for higher-level implementations like the Express middleware.
+This package provides the core functionality for implementing Model Context Protocol (MCP) based authorization in Node.js applications. It serves as the foundation for higher-level implementations like the Express middleware (`@brionmario-experimental/mcp-express`).
+
+This package is part of the [Asgardeo MCP Node.js SDKs monorepo](https://github.com/brionmario/asgardeo-mcp-node#readme). For overall project information, contribution guidelines, and details on other related packages, please refer to the main repository.
 
 ## Installation
 
@@ -79,8 +84,6 @@ const metadata = generateProtectedResourceMetadata({
   resource: 'https://api.example.com'
 });
 ```
-
-## Development
 
 ### Prerequisites
 

@@ -19,7 +19,7 @@
 import {URL} from 'url';
 import {createRemoteJWKSet, jwtVerify, JWTVerifyResult, JWTPayload, JWTVerifyOptions, ResolvedKey} from 'jose';
 
-export default async function validateAccessToken(
+export default async function validateToken(
   accessToken: string,
   jwksUri: string,
   options: JWTVerifyOptions,
@@ -42,9 +42,6 @@ export default async function validateAccessToken(
   const {issuer, audience, clockTolerance} = options;
   if (!issuer || typeof issuer !== 'string') {
     throw new Error('Issuer must be a non-empty string in options.');
-  }
-  if (!audience || (typeof audience !== 'string' && !Array.isArray(audience))) {
-    throw new Error('Audience must be a non-empty string or array of strings in options.');
   }
 
   const JWKS: ReturnType<typeof createRemoteJWKSet> = createRemoteJWKSet(jwksUrl);

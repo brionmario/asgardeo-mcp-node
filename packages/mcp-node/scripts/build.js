@@ -13,7 +13,7 @@ const commonOptions = {
   external: ['jose', 'node-fetch'], // External dependencies that shouldn't be bundled
   sourcemap: true,
   minify: true,
-  target: 'node18', // Target Node.js version
+  target: 'node18',
 };
 
 // Build ESM version
