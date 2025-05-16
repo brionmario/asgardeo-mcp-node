@@ -31,12 +31,7 @@ const app: Express = express();
 app.use(express.json());
 app.use(
   McpAuthServer({
-    providers: [
-      {
-        baseUrl: process.env.BASE_URL as string,
-        issuer: process.env.ISSUER as string,
-      },
-    ],
+    baseUrl: process.env.BASE_URL as string,
   }),
 );
 
@@ -56,7 +51,6 @@ app.post(
   '/mcp',
   protectedRoute({
     baseUrl: process.env.BASE_URL as string,
-    issuer: process.env.ISSUER as string,
   }),
   async (req: Request, res: Response): Promise<void> => {
     try {

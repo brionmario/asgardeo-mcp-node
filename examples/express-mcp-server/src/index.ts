@@ -13,12 +13,7 @@ app.use(express.json());
 
 app.use(
   McpAuthServer({
-    providers: [
-      {
-        baseUrl: process.env.BASE_URL as string,
-        issuer: process.env.ISSUER,
-      },
-    ],
+    baseUrl: process.env.BASE_URL as string,
   }),
 );
 
@@ -30,7 +25,6 @@ app.use(
   '/api/protected',
   protectedRoute({
     baseUrl: process.env.BASE_URL as string,
-    issuer: process.env.ISSUER,
   }),
   protectedRoutes,
 );

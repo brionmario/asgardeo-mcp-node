@@ -23,7 +23,7 @@ import {getProtectedResourceMetadata} from '../controllers/protected-resource';
 
 export default function AuthRouter(options: McpAuthOptions): express.Router {
   const router: express.Router = express.Router();
-  const baseUrl: string = options.baseUrl;
+  const {baseUrl} = options;
   if (!baseUrl) {
     throw new Error('baseUrl must be provided');
   }
