@@ -1,6 +1,6 @@
 import express from 'express';
 import {config} from 'dotenv';
-import {McpAuthServer, protectedRoute} from '@brionmario-experimental/mcp-express';
+import {McpAuthServer, protectedRoute} from '@asgardeo/mcp-express';
 import {protectedRoutes} from './routes/protected';
 import {publicRoutes} from './routes/public';
 

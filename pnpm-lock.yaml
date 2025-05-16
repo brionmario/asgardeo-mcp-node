@@ -35,7 +35,7 @@ importers:
 
   examples/express-mcp-server:
     dependencies:
-      '@brionmario-experimental/mcp-express':
+      '@asgardeo/mcp-express':
         specifier: workspace:*
         version: link:../../packages/mcp-express
       dotenv:
@@ -63,7 +63,7 @@ importers:
 
   examples/express-mcp-vet-ai-assist-app:
     dependencies:
-      '@brionmario-experimental/mcp-express':
+      '@asgardeo/mcp-express':
         specifier: workspace:*
         version: link:../../packages/mcp-express
       '@modelcontextprotocol/inspector':
@@ -81,6 +81,9 @@ importers:
       tailwindcss:
         specifier: ^4.1.5
         version: 4.1.5
+      zod:
+        specifier: ^3.24.4
+        version: 3.24.4
     devDependencies:
       '@types/express':
         specifier: ^4.17.21
@@ -106,13 +109,10 @@ importers:
       typescript:
         specifier: ^5.3.3
         version: 5.7.3
-      zod:
-        specifier: ^3.24.4
-        version: 3.24.4
 
   packages/mcp-express:
     dependencies:
-      '@brionmario-experimental/mcp-node':
+      '@asgardeo/mcp-node':
         specifier: workspace:^
         version: link:../mcp-node
       cors:

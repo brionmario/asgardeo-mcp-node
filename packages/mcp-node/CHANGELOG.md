@@ -1,4 +1,4 @@
-# @brionmario-experimental/mcp-node
+# @asgardeo/mcp-node
 
 ## 0.0.4
 

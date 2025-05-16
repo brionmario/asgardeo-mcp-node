@@ -1,6 +1,6 @@
 {
   "private": true,
-  "name": "@brionmario-experimental/express-mcp-server",
+  "name": "@asgardeo/express-mcp-server",
   "version": "0.0.4",
   "description": "Example Express server demonstrating MCP authorization using Asgardeo",
   "keywords": [
@@ -28,7 +28,7 @@
     "dev": "nodemon --exec node --loader ts-node/esm src/index.ts"
   },
   "dependencies": {
-    "@brionmario-experimental/mcp-express": "workspace:*",
+    "@asgardeo/mcp-express": "workspace:*",
     "express": "^4.18.2",
     "dotenv": "^16.3.1"
   },

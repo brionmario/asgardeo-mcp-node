@@ -19,7 +19,8 @@
 
 <br>
 
-This repository contains the source code for Node.js SDKs that help you enforce Model Context Protocol (MCP) based authorization using Asgardeo. If you have any questions, please reach out to us through one of the following channels:
+This repository contains the source code for Node.js SDKs that help you enforce Model Context Protocol (MCP) based
+authorization using Asgardeo. If you have any questions, please reach out to us through one of the following channels:
 
 [![Stackoverflow](https://img.shields.io/badge/Ask%20for%20help%20on-Stackoverflow-orange)](https://stackoverflow.com/questions/tagged/wso2is+asgardeo+mcp)
 [![Join the chat at https://discord.gg/wso2](https://img.shields.io/badge/Join%20us%20on-Discord-%23e01563.svg)](https://discord.gg/wso2)
@@ -27,38 +28,45 @@ This repository contains the source code for Node.js SDKs that help you enforce 
 
 ## Quickstart
 
-For Express.js applications, we recommend using the @brionmario-experimental/mcp-express package.
+For Express.js applications, we recommend using the @asgardeo/mcp-express package.
 
-To get started quickly with Express.js, please refer to the [README.md](./packages/mcp-express/README.md) for mcp-express.
+To get started quickly with Express.js, please refer to the [README.md](./packages/mcp-express/README.md) for
+mcp-express.
 
 ## Packages
 
-| Package                                                                                                   | Description                                                                                   |
-| --------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------- |
-| [![@brionmario-experimental/mcp-express](https://img.shields.io/npm/v/@brionmario-experimental/mcp-express?color=%234A90E2&label=%40brionmario-experimental%2Fmcp-express&logo=express)](./packages/mcp-express/)                     | Express middleware for enforcing MCP authorization using Asgardeo.                            |
-| [![@brionmario-experimental/mcp-node](https://img.shields.io/npm/v/@brionmario-experimental/mcp-node?color=%23339933&label=%40brionmario-experimental%2Fmcp-node&logo=nodedotjs)](./packages/mcp-node/) (Placeholder) | Core Node.js utilities for Model Context Protocol (MCP) integration with Asgardeo.        |
-
-
+| Package                                                                                                                                                                                 | Description                                                                        |
+| --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------- |
+| [![@asgardeo/mcp-express](https://img.shields.io/npm/v/@asgardeo/mcp-express?color=%234A90E2&label=%40brionmario-experimental%2Fmcp-express&logo=express)](./packages/mcp-express/)     | Express middleware for enforcing MCP authorization using Asgardeo.                 |
+| [![@asgardeo/mcp-node](https://img.shields.io/npm/v/@asgardeo/mcp-node?color=%23339933&label=%40brionmario-experimental%2Fmcp-node&logo=nodedotjs)](./packages/mcp-node/) (Placeholder) | Core Node.js utilities for Model Context Protocol (MCP) integration with Asgardeo. |
 
 ## Overview
 
-The Model Context Protocol (MCP) is designed to provide a standardized way for applications to convey contextual information relevant to authorization decisions. These SDKs facilitate the integration of MCP with Asgardeo in Node.js applications.
+The Model Context Protocol (MCP) is designed to provide a standardized way for applications to convey contextual
+information relevant to authorization decisions. These SDKs facilitate the integration of MCP with Asgardeo in Node.js
+applications.
 
--   **MCP Express (@brionmario-experimental/mcp-express)**: Middleware specifically tailored for Express.js applications to seamlessly integrate MCP-based authorization.
--   **MCP Node (@brionmario-experimental/mcp-node)**: Core functionalities and utilities for MCP, which can be used in various Node.js environments. The Express middleware may utilize or depend on this core package.
+- **MCP Express (@asgardeo/mcp-express)**: Middleware specifically tailored for Express.js applications to seamlessly
+  integrate MCP-based authorization.
+- **MCP Node (@asgardeo/mcp-node)**: Core functionalities and utilities for MCP, which can be used in various Node.js
+  environments. The Express middleware may utilize or depend on this core package.
 
-For detailed installation and usage instructions for each package, please refer to the README file within its respective directory (e.g., `packages/mcp-express/README.md`).
-
+For detailed installation and usage instructions for each package, please refer to the README file within its respective
+directory (e.g., `packages/mcp-express/README.md`).
 
 ## Contribute
 
-Please read our [Contributing Guide](./CONTRIBUTING.md) for details on our code of conduct, and the process for submitting pull requests to us. We highly value your contributions and support!
+Please read our [Contributing Guide](./CONTRIBUTING.md) for details on our code of conduct, and the process for
+submitting pull requests to us. We highly value your contributions and support!
 
 ### Reporting issues
 
-We encourage you to report issues, improvements, and feature requests by creating [Github Issues](https://github.com/brionmario/asgardeo-mcp-node/issues).
+We encourage you to report issues, improvements, and feature requests by creating
+[Github Issues](https://github.com/brionmario/asgardeo-mcp-node/issues).
 
-**Important**: Please be advised that security issues **MUST** be reported to <a href="mailto:security@wso2.com">security@wso2.com</a>, not as GitHub issues, in order to reach the proper audience. We strongly advise following the WSO2 Security Vulnerability Reporting Guidelines when reporting security issues.
+**Important**: Please be advised that security issues **MUST** be reported to
+<a href="mailto:security@wso2.com">security@wso2.com</a>, not as GitHub issues, in order to reach the proper audience.
+We strongly advise following the WSO2 Security Vulnerability Reporting Guidelines when reporting security issues.
 
 ## License
 

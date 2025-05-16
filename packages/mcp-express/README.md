@@ -1,7 +1,7 @@
-# @brionmario-experimental/mcp-express
+# @asgardeo/mcp-express
 
-[![npm version](https://img.shields.io/npm/v/@brionmario-experimental/mcp-express.svg?style=flat-square)](https://www.npmjs.com/package/@brionmario-experimental/mcp-express)
-[![npm downloads](https://img.shields.io/npm/dm/@brionmario-experimental/mcp-express.svg?style=flat-square)](https://www.npmjs.com/package/@brionmario-experimental/mcp-express)
+[![npm version](https://img.shields.io/npm/v/@asgardeo/mcp-express.svg?style=flat-square)](https://www.npmjs.com/package/@asgardeo/mcp-express)
+[![npm downloads](https://img.shields.io/npm/dm/@asgardeo/mcp-express.svg?style=flat-square)](https://www.npmjs.com/package/@asgardeo/mcp-express)
 
 Express middleware for enforcing Model Context Protocol (MCP) authorization using Asgardeo.
 
@@ -17,11 +17,11 @@ information, contribution guidelines, and details on other related packages, ple
 ## Installation
 
 ```bash
-npm install @brionmario-experimental/mcp-express
+npm install @asgardeo/mcp-express
 # or
-yarn add @brionmario-experimental/mcp-express
+yarn add @asgardeo/mcp-express
 # or
-pnpm add @brionmario-experimental/mcp-express
+pnpm add @asgardeo/mcp-express
 ```
 
 ## Features
@@ -36,7 +36,7 @@ pnpm add @brionmario-experimental/mcp-express
 
 ```typescript
 import express from 'express';
-import {McpAuthServer, protectedRoute} from '@brionmario-experimental/mcp-express';
+import {McpAuthServer, protectedRoute} from '@asgardeo/mcp-express';
 
 const app = express();
 
@@ -65,7 +65,7 @@ app.use('/api/protected', protectedRoute, (req, res) => {
 Initializes the MCP authentication server middleware with the given configuration.
 
 ```typescript
-import {McpAuthServer} from '@brionmario-experimental/mcp-express';
+import {McpAuthServer} from '@asgardeo/mcp-express';
 
 app.use(McpAuthServer({baseUrl: 'https://auth.example.com'}));
 ```
@@ -75,7 +75,7 @@ app.use(McpAuthServer({baseUrl: 'https://auth.example.com'}));
 Middleware to protect routes that require authentication.
 
 ```typescript
-import {protectedRoute} from '@brionmario-experimental/mcp-express';
+import {protectedRoute} from '@asgardeo/mcp-express';
 
 app.use('/api/protected', protectedRoute, protectedRoutes);
 ```
@@ -97,7 +97,7 @@ Here's a complete example of setting up an Express server with MCP authenticatio
 
 ```typescript
 import express from 'express';
-import {McpAuthServer, protectedRoute} from '@brionmario-experimental/mcp-express';
+import {McpAuthServer, protectedRoute} from '@asgardeo/mcp-express';
 
 const app = express();
 const port = process.env.PORT || 3000;

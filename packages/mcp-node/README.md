@@ -1,7 +1,7 @@
-# @brionmario-experimental/mcp-node
+# @asgardeo/mcp-node
 
-[![npm version](https://img.shields.io/npm/v/@brionmario-experimental/mcp-node.svg?style=flat-square)](https://www.npmjs.com/package/@brionmario-experimental/mcp-node)
-[![npm downloads](https://img.shields.io/npm/dm/@brionmario-experimental/mcp-node.svg?style=flat-square)](https://www.npmjs.com/package/@brionmario-experimental/mcp-node)
+[![npm version](https://img.shields.io/npm/v/@asgardeo/mcp-node.svg?style=flat-square)](https://www.npmjs.com/package/@asgardeo/mcp-node)
+[![npm downloads](https://img.shields.io/npm/dm/@asgardeo/mcp-node.svg?style=flat-square)](https://www.npmjs.com/package/@asgardeo/mcp-node)
 
 Node.js core library for enforcing Model Context Protocol (MCP) authorization using Asgardeo.
 
@@ -9,7 +9,7 @@ Node.js core library for enforcing Model Context Protocol (MCP) authorization us
 
 This package provides the core functionality for implementing Model Context Protocol (MCP) based authorization in
 Node.js applications. It serves as the foundation for higher-level implementations like the Express middleware
-(`@brionmario-experimental/mcp-express`).
+(`@asgardeo/mcp-express`).
 
 This package is part of the
 [Asgardeo MCP Node.js SDKs monorepo](https://github.com/brionmario/asgardeo-mcp-node#readme). For overall project
@@ -18,11 +18,11 @@ information, contribution guidelines, and details on other related packages, ple
 ## Installation
 
 ```bash
-npm install @brionmario-experimental/mcp-node
+npm install @asgardeo/mcp-node
 # or
-yarn add @brionmario-experimental/mcp-node
+yarn add @asgardeo/mcp-node
 # or
-pnpm add @brionmario-experimental/mcp-node
+pnpm add @asgardeo/mcp-node
 ```
 
 ## Features
@@ -34,10 +34,7 @@ pnpm add @brionmario-experimental/mcp-node
 ## Usage
 
 ```typescript
-import {
-  generateAuthorizationServerMetadata,
-  generateProtectedResourceMetadata,
-} from '@brionmario-experimental/mcp-node';
+import {generateAuthorizationServerMetadata, generateProtectedResourceMetadata} from '@asgardeo/mcp-node';
 
 baseUrl: string = 'https://api.asgardeo.io/<your-org-name>';
 
@@ -100,7 +97,7 @@ interface McpAuthOptions {
 Verifies a JWT access token using the authorization server's JWKS endpoint.
 
 ```typescript
-import {validateToken} from '@brionmario-experimental/mcp-node';
+import {validateToken} from '@asgardeo/mcp-node';
 
 await validateToken('<token>', 'https://api.asgardeo.io/oauth2/jwks', {
   issuer: 'https://api.asgardeo.io/oauth2/token',

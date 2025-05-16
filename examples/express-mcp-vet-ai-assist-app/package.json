@@ -1,6 +1,6 @@
 {
   "private": true,
-  "name": "@brionmario-experimental/express-mcp-vet-ai-assist-app",
+  "name": "@asgardeo/express-mcp-vet-ai-assist-app",
   "version": "0.0.4",
   "description": "Example Express server demonstrating MCP authorization using Asgardeo",
   "keywords": [
@@ -29,7 +29,7 @@
     "lint": "eslint --ext .ts,.js src"
   },
   "dependencies": {
-    "@brionmario-experimental/mcp-express": "workspace:*",
+    "@asgardeo/mcp-express": "workspace:*",
     "@modelcontextprotocol/inspector": "^0.11.0",
     "@modelcontextprotocol/sdk": "^1.11.0",
     "dotenv": "^16.3.1",

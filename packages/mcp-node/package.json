@@ -1,5 +1,5 @@
 {
-  "name": "@brionmario-experimental/mcp-node",
+  "name": "@asgardeo/mcp-node",
   "version": "0.0.4",
   "description": "Node.js core for enforcing Model Context Protocol (MCP) authorization using Asgardeo.",
   "keywords": [
