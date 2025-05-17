@@ -17,7 +17,7 @@
  */
 
 import {randomUUID} from 'node:crypto';
-import {McpAuthServer, protectedRoute} from '@brionmario-experimental/mcp-express';
+import {McpAuthServer, protectedRoute} from '@asgardeo/mcp-express';
 import {McpServer} from '@modelcontextprotocol/sdk/server/mcp';
 import {StreamableHTTPServerTransport} from '@modelcontextprotocol/sdk/server/streamableHttp';
 import {isInitializeRequest} from '@modelcontextprotocol/sdk/types';
@@ -31,12 +31,7 @@ const app: Express = express();
 app.use(express.json());
 app.use(
   McpAuthServer({
-    providers: [
-      {
-        baseUrl: process.env.BASE_URL as string,
-        issuer: process.env.ISSUER as string,
-      },
-    ],
+    baseUrl: process.env.BASE_URL as string,
   }),
 );
 
@@ -56,7 +51,6 @@ app.post(
   '/mcp',
   protectedRoute({
     baseUrl: process.env.BASE_URL as string,
-    issuer: process.env.ISSUER as string,
   }),
   async (req: Request, res: Response): Promise<void> => {
     try {

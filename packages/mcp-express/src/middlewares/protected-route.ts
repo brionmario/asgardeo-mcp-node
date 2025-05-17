@@ -16,10 +16,10 @@
  * under the License.
  */
 
-import {PROTECTED_RESOURCE_URL, validateToken, McpAuthProvider} from '@brionmario-experimental/mcp-node';
+import {McpAuthOptions, PROTECTED_RESOURCE_URL, validateToken} from '@asgardeo/mcp-node';
 import {NextFunction, Request, Response} from 'express';
 
-export default function protectedRoute(provider?: McpAuthProvider) {
+export default function protectedRoute(options: McpAuthOptions) {
   return async function protectedMiddleware(
     req: Request,
     res: Response,
@@ -48,7 +48,7 @@ export default function protectedRoute(provider?: McpAuthProvider) {
 
     const token: string = parts[1];
 
-    const issuerBase: string | undefined = provider?.baseUrl;
+    const issuerBase: string | undefined = options?.baseUrl;
 
     const TOKEN_VALIDATION_CONFIG: {
       jwksUri: string;
@@ -60,7 +60,7 @@ export default function protectedRoute(provider?: McpAuthProvider) {
     } = {
       jwksUri: `${issuerBase}/oauth2/jwks`,
       options: {
-        audience: provider?.audience,
+        audience: options?.audience,
         clockTolerance: 60,
         issuer: `${issuerBase}/oauth2/token`,
       },

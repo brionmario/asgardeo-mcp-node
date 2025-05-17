@@ -17,11 +17,6 @@
  */
 
 export interface McpAuthOptions {
-  providers: McpAuthProvider[];
-}
-
-export interface McpAuthProvider {
   audience?: string;
   baseUrl: string;
-  issuer?: string;
 }

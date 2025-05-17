@@ -1,6 +1,6 @@
 import express from 'express';
 import {config} from 'dotenv';
-import {McpAuthServer, protectedRoute} from '@brionmario-experimental/mcp-express';
+import {McpAuthServer, protectedRoute} from '@asgardeo/mcp-express';
 import {protectedRoutes} from './routes/protected';
 import {publicRoutes} from './routes/public';
 
@@ -13,12 +13,7 @@ app.use(express.json());
 
 app.use(
   McpAuthServer({
-    providers: [
-      {
-        baseUrl: process.env.BASE_URL as string,
-        issuer: process.env.ISSUER,
-      },
-    ],
+    baseUrl: process.env.BASE_URL as string,
   }),
 );
 
@@ -30,7 +25,6 @@ app.use(
   '/api/protected',
   protectedRoute({
     baseUrl: process.env.BASE_URL as string,
-    issuer: process.env.ISSUER,
   }),
   protectedRoutes,
 );
